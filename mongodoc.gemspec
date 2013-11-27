@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'mongodoc/version'
+require 'mongodoc'
 
 Gem::Specification.new do |spec|
   spec.name          = "mongodoc"
-  spec.version       = Mongodoc::VERSION
+  spec.version       = MongoDoc::VERSION
   spec.authors       = ["Bryan Helmkamp"]
   spec.email         = ["bryan@brynary.com"]
   spec.summary       = %q{TODO: Write a short summary. Required.}

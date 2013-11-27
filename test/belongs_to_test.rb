@@ -2,6 +2,7 @@ require File.expand_path('../helper', __FILE__)
 
 class BelongsToTest < MongoDoc::TestCase
   class Cat < MongoDoc
+    include MongoDoc::BelongsTo
     belongs_to :owner, class_name: "User"
   end
 

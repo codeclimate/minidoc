@@ -2,6 +2,7 @@ require File.expand_path('../helper', __FILE__)
 
 class TimestampsTest < MongoDoc::TestCase
   class User < ::User
+    include MongoDoc::Timestamps
     timestamps!
   end
 

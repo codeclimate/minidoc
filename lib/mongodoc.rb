@@ -4,6 +4,12 @@ require "active_model"
 require "active_support/core_ext"
 
 class MongoDoc
+  require "mongodoc/belongs_to"
+  require "mongodoc/connection"
+  require "mongodoc/timestamps"
+
+  include Connection
+
   VERSION = "0.0.1"
 
   if Virtus.respond_to?(:model)
@@ -27,34 +33,6 @@ class MongoDoc
       errors = @record.errors.full_messages.join(", ")
       super("Record invalid: #{errors}")
     end
-  end
-
-  class_attribute :connection
-  class_attribute :database_name
-
-  def self.collection
-    database[collection_name]
-  end
-
-  def self.database
-    connection[database_name]
-  end
-
-  class << self
-    attr_writer :collection_name
-  end
-
-  def self.collection_name
-    return @collection_name if @collection_name
-    @collection_name = name.demodulize.underscore.pluralize
-  end
-
-  class_attribute :record_timestamps
-
-  def self.timestamps!
-    self.record_timestamps = true
-    attribute :created_at, Time
-    attribute :updated_at, Time
   end
 
   def self.first
@@ -117,30 +95,6 @@ class MongoDoc
     end
   end
 
-  def self.associations
-    @associations ||= {}
-  end
-
-  def self.belongs_to(association_name, options = {})
-    association_name = association_name.to_sym
-    associations[association_name] = options
-
-    attribute "#{association_name}_id", BSON::ObjectId
-
-    define_method("#{association_name}=") do |value|
-      write_association(association_name, value)
-    end
-
-    define_method("#{association_name}_id=") do |value|
-      instance_variable_set("@#{association_name}", nil)
-      super(value)
-    end
-
-    define_method(association_name) do
-      read_association(association_name)
-    end
-  end
-
   def initialize(attrs = {})
     if attrs["_id"].nil? && attrs[:_id].nil?
       attrs[:_id] = BSON::ObjectId.new
@@ -189,8 +143,6 @@ class MongoDoc
   end
 
   def reload
-    clear_association_caches
-
     new_object = self.class.find(self.id)
 
     self.class.attribute_set.each do |attr|
@@ -241,43 +193,10 @@ private
   end
 
   def create
-    if self.class.record_timestamps
-      current_time = Time.now.utc
-      self.created_at = current_time
-      self.updated_at = current_time
-    end
-
     self.class.collection << attributes
   end
 
   def update
-    if self.class.record_timestamps
-      self.updated_at = Time.now.utc
-    end
-
     self.class.collection.update({ _id: id }, attributes)
   end
-
-  def write_association(name, value)
-    send("#{name}_id=", value ? value.id : nil)
-  end
-
-  def read_association(name)
-    return instance_variable_get("@#{name}") if instance_variable_get("@#{name}")
-
-    options = self.class.associations[name]
-
-    if (foreign_id = self["#{name}_id"])
-      record = options[:class_name].constantize.find(foreign_id)
-      instance_variable_set("@#{name}", record)
-      record
-    end
-  end
-
-  def clear_association_caches
-    self.class.associations.each do |name, options|
-      instance_variable_set("@#{name}", nil)
-    end
-  end
-
 end

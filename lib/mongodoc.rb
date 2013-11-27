@@ -19,6 +19,16 @@ class MongoDoc
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
+  class RecordInvalid < StandardError
+    attr_reader :record
+
+    def initialize(record)
+      @record = record
+      errors = @record.errors.full_messages.join(", ")
+      super("Record invalid: #{errors}")
+    end
+  end
+
   class_attribute :connection
   class_attribute :database_name
 
@@ -60,8 +70,9 @@ class MongoDoc
     new(attrs).tap(&:save)
   end
 
-  # def self.create!
-  # end
+  def self.create!(*args)
+    new(*args).save!
+  end
 
   def self.delete(id)
     collection.remove(_id: BSON::ObjectId(id.to_s))
@@ -151,13 +162,12 @@ class MongoDoc
   end
 
   def save
-    create_or_update
-    @new_record = false
-    true
+    valid? ? create_or_update : false
   end
 
-  # def save!
-  # end
+  def save!
+    valid? ? create_or_update : raise(RecordInvalid.new(self))
+  end
 
   def set(attributes)
     self.class.set(id, attributes)
@@ -187,6 +197,8 @@ private
 
   def create_or_update
     new_record? ? create : update
+    @new_record = false
+    true
   end
 
   def create

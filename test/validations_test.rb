@@ -16,13 +16,21 @@ class ValidationsTest < MongoDoc::TestCase
     assert_equal ["can't be blank"], user.errors[:name]
   end
 
-  # def test_create_bang
-  # end
+  def test_create_bang
+    assert_raises MongoDoc::RecordInvalid do
+      User.create!
+    end
+  end
 
-  # def test_invalid_save
-  #   # => false
-  # end
+  def test_invalid_save
+    user = User.new
+    assert_equal false, user.save
+    assert_equal true, user.new_record?
+  end
 
-  # def test_save_bang
-  # end
+  def test_save_bang
+    assert_raises MongoDoc::RecordInvalid do
+      User.new.save!
+    end
+  end
 end

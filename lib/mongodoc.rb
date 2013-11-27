@@ -1,5 +1,6 @@
 require "mongo"
 require "virtus"
+require "active_model"
 require "active_support/core_ext"
 
 class MongoDoc
@@ -10,90 +11,107 @@ class MongoDoc
   else
     include Virtus
   end
-  # extend ActiveModel::Naming
+
+  attribute :_id, BSON::ObjectId
+
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
   # include ActiveModel::Validations
 
-  def self.collection
-    # database[collection_name]
+  # def self.collection
+  #   # database[collection_name]
+  # end
+
+  # def self.database
+  #   # connection[database_name]
+  # end
+
+  # def self.collection_name
+  # end
+
+  # def self.first
+  # end
+
+  # def self.count
+  # end
+
+  # def self.find_one
+  # end
+
+  # def self.distinct
+  # end
+
+  # def self.upsert
+  # end
+
+  # def self.find
+  # end
+
+  # def self.create
+  # end
+
+  # def self.create!
+  # end
+
+  # def self.delete
+  # end
+
+  # def self.set
+  # end
+
+  # def self.unset
+  # end
+
+  # def self.wrap
+  # end
+
+  def id
+    _id
   end
 
-  def self.database
-    # connection[database_name]
+  def id=(new_id)
+    self._id = new_id
   end
 
-  def self.collection_name
-  end
+  # def new_record?
+  # end
 
-  def self.first
-  end
-
-  def self.count
-  end
-
-  def self.find_one
-  end
-
-  def self.distinct
-  end
-
-  def self.upsert
-  end
-
-  def self.find
-  end
-
-  def self.create
-  end
-
-  def self.create!
-  end
-
-  def self.delete
-  end
-
-  def self.set
-  end
-
-  def self.unset
-  end
-
-  def self.wrap
-  end
-
-  def new_record?
-  end
-
-  def destroyed?
-  end
+  # def destroyed?
+  # end
 
   def persisted?
-    !(new_record? || destroyed?)
+    true
+    # !(new_record? || destroyed?)
   end
 
-  def delete
+  # def delete
+  # end
+
+  # def destroy
+  # end
+
+  # def reload
+  # end
+
+  # def save
+  # end
+
+  # def save!
+  # end
+
+  # def set
+  # end
+
+  # def unset
+  # end
+
+  # def to_param
+  # end
+
+  def to_key
+    [id.to_s]
   end
 
-  def destroy
-  end
-
-  def reload
-  end
-
-  def save
-  end
-
-  def save!
-  end
-
-  def set
-  end
-
-  def unset
-  end
-
-  def to_param
-  end
-
-  def cache_key
-  end
+  # def cache_key
+  # end
 end

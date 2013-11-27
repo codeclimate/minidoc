@@ -67,11 +67,21 @@ class MongoDoc
     collection.remove(_id: BSON::ObjectId(id.to_s))
   end
 
-  # def self.set
-  # end
+  def self.set(id, attributes)
+    id = BSON::ObjectId(id.to_s)
+    collection.update({ "_id" => id }, "$set" => attributes)
+  end
 
-  # def self.unset
-  # end
+  def self.unset(id, *keys)
+    id = BSON::ObjectId(id.to_s)
+
+    unsets = {}
+    keys.each do |key|
+      unsets[key] = 1
+    end
+
+    collection.update({ "_id" => id }, "$unset" => unsets)
+  end
 
   def self.wrap(doc)
     return nil unless doc
@@ -149,11 +159,21 @@ class MongoDoc
   # def save!
   # end
 
-  # def set
-  # end
+  def set(attributes)
+    self.class.set(id, attributes)
 
-  # def unset
-  # end
+    attributes.each do |name, value|
+      self[name] = value
+    end
+  end
+
+  def unset(*keys)
+    self.class.unset(id, *keys)
+
+    keys.each do |key|
+      self[key] = nil
+    end
+  end
 
   def to_key
     [id.to_s]

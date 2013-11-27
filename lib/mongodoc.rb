@@ -4,58 +4,24 @@ require "active_model"
 require "active_support/core_ext"
 
 class MongoDoc
+  VERSION = "0.0.1"
+
   require "mongodoc/belongs_to"
   require "mongodoc/connection"
+  require "mongodoc/finders"
+  require "mongodoc/record_invalid"
   require "mongodoc/timestamps"
 
   include Connection
-
-  VERSION = "0.0.1"
-
-  if Virtus.respond_to?(:model)
-    include Virtus.model
-  else
-    include Virtus
-  end
-
-  attribute :_id, BSON::ObjectId
-
+  include Finders
+  include Virtus.model
   extend ActiveModel::Naming
-
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  class RecordInvalid < StandardError
-    attr_reader :record
-
-    def initialize(record)
-      @record = record
-      errors = @record.errors.full_messages.join(", ")
-      super("Record invalid: #{errors}")
-    end
-  end
-
-  def self.first
-    find_one({})
-  end
-
-  def self.count(selector = {})
-    collection.count(query: selector)
-  end
-
-  def self.find(id_or_selector, options = {})
-    if id_or_selector.is_a?(Hash)
-      wrap(collection.find(id_or_selector, options))
-    else
-      raise ArgumentError unless options.empty?
-      id = BSON::ObjectId(id_or_selector.to_s)
-      wrap(collection.find_one(_id: id))
-    end
-  end
-
-  def self.find_one(selector, options = {})
-    wrap(collection.find_one(selector, options))
-  end
+  attribute :_id, BSON::ObjectId
+  alias_method :id, :_id
+  alias_method :id=, :_id=
 
   def self.create(attrs = {})
     new(attrs).tap(&:save)
@@ -85,16 +51,6 @@ class MongoDoc
     collection.update({ "_id" => id }, "$unset" => unsets)
   end
 
-  def self.wrap(doc)
-    return nil unless doc
-
-    if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
-      doc.map { |d| new(d) }
-    else
-      new(doc)
-    end
-  end
-
   def initialize(attrs = {})
     if attrs["_id"].nil? && attrs[:_id].nil?
       attrs[:_id] = BSON::ObjectId.new
@@ -104,14 +60,6 @@ class MongoDoc
     @destroyed = false
 
     super(attrs)
-  end
-
-  def id
-    _id
-  end
-
-  def id=(new_id)
-    self._id = new_id
   end
 
   def ==(other)

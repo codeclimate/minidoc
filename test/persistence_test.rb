@@ -42,6 +42,14 @@ class PersistenceTest < MongoDoc::TestCase
     assert_equal 1, User.count
   end
 
+  def test_update
+    user = User.create(name: "Bryan")
+    user.name = "Noah"
+    assert_equal "Noah", user.name
+    user.save
+    assert_equal "Noah", user.reload.name
+  end
+
   def test_destroy
     user = User.create(name: "Bryan")
     assert_equal false, user.destroyed?

@@ -42,9 +42,6 @@ class MongoDoc
     collection.count(query: selector)
   end
 
-  # def self.upsert
-  # end
-
   def self.find(id_or_selector, options = {})
     if id_or_selector.is_a?(Hash)
       wrap(collection.find(id_or_selector, options))
@@ -144,7 +141,7 @@ class MongoDoc
   end
 
   def save
-    self.class.collection << attributes
+    create_or_update
     @new_record = false
     true
   end
@@ -164,5 +161,19 @@ class MongoDoc
 
   def to_param
     id.to_s
+  end
+
+private
+
+  def create_or_update
+    new_record? ? create : update
+  end
+
+  def create
+    self.class.collection << attributes
+  end
+
+  def update
+    self.class.collection.update({ _id: id }, attributes)
   end
 end

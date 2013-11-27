@@ -49,6 +49,14 @@ class MongoDoc
     @collection_name = name.demodulize.underscore.pluralize
   end
 
+  class_attribute :record_timestamps
+
+  def self.timestamps!
+    self.record_timestamps = true
+    attribute :created_at, Time
+    attribute :updated_at, Time
+  end
+
   def self.first
     find_one({})
   end
@@ -207,10 +215,20 @@ private
   end
 
   def create
+    if self.class.record_timestamps
+      current_time = Time.now.utc
+      self.created_at = current_time
+      self.updated_at = current_time
+    end
+
     self.class.collection << attributes
   end
 
   def update
+    if self.class.record_timestamps
+      self.updated_at = Time.now.utc
+    end
+
     self.class.collection.update({ _id: id }, attributes)
   end
 end

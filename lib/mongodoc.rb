@@ -15,8 +15,9 @@ class MongoDoc
   attribute :_id, BSON::ObjectId
 
   extend ActiveModel::Naming
+
   include ActiveModel::Conversion
-  # include ActiveModel::Validations
+  include ActiveModel::Validations
 
   # def self.collection
   #   # database[collection_name]

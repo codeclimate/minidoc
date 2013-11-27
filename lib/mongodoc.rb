@@ -64,9 +64,7 @@ class MongoDoc
   end
 
   def self.create(attrs = {})
-    record = new(attrs)
-    record.save
-    record
+    new(attrs).tap(&:save)
   end
 
   # def self.create!

@@ -14,6 +14,7 @@ class TimestampsTest < MongoDoc::TestCase
   def test_update
     user = User.create
     sleep 0.001
+    user.save
     refute_equal user.created_at, user.updated_at
   end
 end

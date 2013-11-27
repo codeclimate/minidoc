@@ -63,8 +63,15 @@ class MongoDoc
   # def self.unset
   # end
 
-  # def self.wrap
-  # end
+  def self.wrap(doc)
+    return nil unless doc
+
+    if doc.is_a?(Array)
+      doc.map { |d| new(d) }
+    else
+      new(doc)
+    end
+  end
 
   def id
     _id

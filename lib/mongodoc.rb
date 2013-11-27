@@ -40,8 +40,13 @@ class MongoDoc
     connection[database_name]
   end
 
+  class << self
+    attr_writer :collection_name
+  end
+
   def self.collection_name
-    name.demodulize.underscore.pluralize
+    return @collection_name if @collection_name
+    @collection_name = name.demodulize.underscore.pluralize
   end
 
   def self.first

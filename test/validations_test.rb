@@ -19,6 +19,10 @@ class ValidationsTest < MongoDoc::TestCase
   # def test_create_bang
   # end
 
+  # def test_invalid_save
+  #   # => false
+  # end
+
   # def test_save_bang
   # end
 end

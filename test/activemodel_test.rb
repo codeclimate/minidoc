@@ -26,6 +26,3 @@ class ActiveModelTest < MongoDoc::TestCase
     assert_equal "users/user", User.new.to_partial_path
   end
 end
-
-
-

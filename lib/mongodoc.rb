@@ -34,29 +34,25 @@ class MongoDoc
     name.demodulize.underscore.pluralize
   end
 
-  # def self.first
-  # end
+  def self.first
+    find_one({})
+  end
 
   def self.count(selector = {})
     collection.count(query: selector)
   end
 
-  # def self.distinct
-  # end
-
   # def self.upsert
   # end
 
-  def self.find(id_or_selector) #, options = {})
-    # if id_or_selector.is_a?(Hash)
-    #   collection.find(id_or_selector, options).map do |doc|
-    #     wrap(doc)
-    #   end
-    # else
-      # raise ArgumentError unless options.empty?
+  def self.find(id_or_selector, options = {})
+    if id_or_selector.is_a?(Hash)
+      wrap(collection.find(id_or_selector, options))
+    else
+      raise ArgumentError unless options.empty?
       id = BSON::ObjectId(id_or_selector.to_s)
       wrap(collection.find_one(_id: id))
-    # end
+    end
   end
 
   def self.find_one(selector, options = {})
@@ -83,7 +79,7 @@ class MongoDoc
   def self.wrap(doc)
     return nil unless doc
 
-    if doc.is_a?(Array)
+    if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
       doc.map { |d| new(d) }
     else
       new(doc)
@@ -107,6 +103,13 @@ class MongoDoc
 
   def id=(new_id)
     self._id = new_id
+  end
+
+  def ==(other)
+    other.class == self.class &&
+    self.id &&
+    other.id &&
+    self.id == other.id
   end
 
   def new_record?

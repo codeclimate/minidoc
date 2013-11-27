@@ -37,8 +37,9 @@ class MongoDoc
   # def self.first
   # end
 
-  # def self.count
-  # end
+  def self.count(selector = {})
+    collection.count(query: selector)
+  end
 
   # def self.find_one
   # end

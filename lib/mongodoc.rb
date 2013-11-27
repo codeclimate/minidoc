@@ -19,16 +19,20 @@ class MongoDoc
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  # def self.collection
-  #   # database[collection_name]
-  # end
+  class_attribute :connection
+  class_attribute :database_name
 
-  # def self.database
-  #   # connection[database_name]
-  # end
+  def self.collection
+    database[collection_name]
+  end
 
-  # def self.collection_name
-  # end
+  def self.database
+    connection[database_name]
+  end
+
+  def self.collection_name
+    name.demodulize.underscore.pluralize
+  end
 
   # def self.first
   # end

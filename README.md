@@ -15,6 +15,11 @@ as simple as possible.
 * Simple and easily extensible
 * Less than 500 lines of code.
 
+## Anti-Features
+
+* Custom query API (just use Mongo)
+* Callbacks (just define a method like save and call super)
+
 ## Usage
 
 ### Basics

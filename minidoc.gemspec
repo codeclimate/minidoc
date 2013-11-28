@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Minidoc::VERSION
   spec.authors       = ["Bryan Helmkamp"]
   spec.email         = ["bryan@brynary.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Lightweight wrapper for MongoDB documents}
+  spec.homepage      = "https://github.com/brynary/minidoc"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

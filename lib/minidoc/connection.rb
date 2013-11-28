@@ -1,6 +1,6 @@
 require "active_support/concern"
 
-module MongoDoc::Connection
+module Minidoc::Connection
   extend ActiveSupport::Concern
 
   included do

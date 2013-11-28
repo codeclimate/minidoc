@@ -1,6 +1,6 @@
 require "active_support/concern"
 
-module MongoDoc::Timestamps
+module Minidoc::Timestamps
   extend ActiveSupport::Concern
 
   included do

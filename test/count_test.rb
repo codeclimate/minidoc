@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class CountTest < MongoDoc::TestCase
+class CountTest < Minidoc::TestCase
   def test_count_all
     User.collection << { name: "Joe" }
     User.collection << { name: "Bryan" }

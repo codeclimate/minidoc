@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class AttributesTest < MongoDoc::TestCase
+class AttributesTest < Minidoc::TestCase
   def test_initialization
     user = User.new(name: "Bryan")
     assert_equal "Bryan", user.name

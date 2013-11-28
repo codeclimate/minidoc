@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class PersistenceTest < MongoDoc::TestCase
+class PersistenceTest < Minidoc::TestCase
   def test_ids
     user = User.new
     assert_equal BSON::ObjectId, user.id.class

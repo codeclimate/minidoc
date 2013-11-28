@@ -1,6 +1,6 @@
 require "active_support/concern"
 
-module MongoDoc::BelongsTo
+module Minidoc::BelongsTo
   extend ActiveSupport::Concern
 
   module ClassMethods

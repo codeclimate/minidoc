@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class SetTest < MongoDoc::TestCase
+class SetTest < Minidoc::TestCase
   def test_class_set
     user = User.create(name: "Bryan")
     User.set(user.id, name: "Noah")

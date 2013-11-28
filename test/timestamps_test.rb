@@ -1,8 +1,8 @@
 require File.expand_path('../helper', __FILE__)
 
-class TimestampsTest < MongoDoc::TestCase
+class TimestampsTest < Minidoc::TestCase
   class User < ::User
-    include MongoDoc::Timestamps
+    include Minidoc::Timestamps
     timestamps!
   end
 

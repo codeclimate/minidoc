@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class ActiveModelTest < MongoDoc::TestCase
+class ActiveModelTest < Minidoc::TestCase
   def test_model_name
     assert_equal "User", User.model_name.to_s
   end

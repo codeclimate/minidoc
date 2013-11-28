@@ -1,6 +1,6 @@
 require "active_support/concern"
 
-module MongoDoc::Finders
+module Minidoc::Finders
   extend ActiveSupport::Concern
 
   module ClassMethods

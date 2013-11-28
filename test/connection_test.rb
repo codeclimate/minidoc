@@ -1,7 +1,7 @@
 require File.expand_path('../helper', __FILE__)
 
-class ConnectionTest < MongoDoc::TestCase
-  class Company < MongoDoc
+class ConnectionTest < Minidoc::TestCase
+  class Company < Minidoc
     self.collection_name = "accounts"
   end
 
@@ -15,6 +15,6 @@ class ConnectionTest < MongoDoc::TestCase
   end
 
   def test_database
-    assert_equal "mongodoc_test", User.database.name
+    assert_equal "minidoc_test", User.database.name
   end
 end

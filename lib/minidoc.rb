@@ -3,14 +3,14 @@ require "virtus"
 require "active_model"
 require "active_support/core_ext"
 
-class MongoDoc
+class Minidoc
   VERSION = "0.0.1"
 
-  require "mongodoc/belongs_to"
-  require "mongodoc/connection"
-  require "mongodoc/finders"
-  require "mongodoc/record_invalid"
-  require "mongodoc/timestamps"
+  require "minidoc/belongs_to"
+  require "minidoc/connection"
+  require "minidoc/finders"
+  require "minidoc/record_invalid"
+  require "minidoc/timestamps"
 
   include Connection
   include Finders

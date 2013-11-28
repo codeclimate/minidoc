@@ -1,6 +1,6 @@
-# MongoDoc
+# Minidoc
 
-MongoDoc is an extremely lightweight layer on top of the MongoDB client to
+Minidoc is an extremely lightweight layer on top of the MongoDB client to
 make interacting with documents from Ruby more convenient.
 
 We rely heavily on the MongoDB client, Virtus and ActiveModel to keep things

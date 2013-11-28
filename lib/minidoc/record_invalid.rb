@@ -1,4 +1,4 @@
-class MongoDoc::RecordInvalid < StandardError
+class Minidoc::RecordInvalid < StandardError
   attr_reader :record
 
   def initialize(record)

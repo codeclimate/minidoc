@@ -1,6 +1,6 @@
-require "mongodoc"
+require "minidoc"
 
-class MongoDoc::ReadOnly
+class Minidoc::ReadOnly
   include Connection
   include Finders
   include Virtus.model

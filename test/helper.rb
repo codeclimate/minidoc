@@ -1,17 +1,17 @@
 require 'test/unit'
-require 'mongodoc'
+require 'minidoc'
 
-class User < MongoDoc
+class User < Minidoc
   attribute :name, String
 end
 
 $mongo = Mongo::MongoClient.new
-MongoDoc.connection = $mongo
-MongoDoc.database_name = "mongodoc_test"
+Minidoc.connection = $mongo
+Minidoc.database_name = "minidoc_test"
 
-class MongoDoc::TestCase < Test::Unit::TestCase
+class Minidoc::TestCase < Test::Unit::TestCase
   def setup
-    MongoDoc.database.collections.each do |coll|
+    Minidoc.database.collections.each do |coll|
       next if coll.name.include?("system")
       coll.remove({})
     end

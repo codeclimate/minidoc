@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class WrapTest < MongoDoc::TestCase
+class WrapTest < Minidoc::TestCase
   def test_wrap_nil
     assert_equal nil, User.wrap(nil)
   end

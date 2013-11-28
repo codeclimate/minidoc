@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class FindTest < MongoDoc::TestCase
+class FindTest < Minidoc::TestCase
   def test_first
     assert_equal nil, User.first
     user = User.create(name: "Bryan")

@@ -1,6 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
-class ValidationsTest < MongoDoc::TestCase
+class ValidationsTest < Minidoc::TestCase
   class User < ::User
     validates :name, presence: true
   end
@@ -17,7 +17,7 @@ class ValidationsTest < MongoDoc::TestCase
   end
 
   def test_create_bang
-    assert_raises MongoDoc::RecordInvalid do
+    assert_raises Minidoc::RecordInvalid do
       User.create!
     end
   end
@@ -29,7 +29,7 @@ class ValidationsTest < MongoDoc::TestCase
   end
 
   def test_save_bang
-    assert_raises MongoDoc::RecordInvalid do
+    assert_raises Minidoc::RecordInvalid do
       User.new.save!
     end
   end

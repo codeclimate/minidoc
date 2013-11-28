@@ -2,6 +2,7 @@ require File.expand_path('../helper', __FILE__)
 
 class AliasTest < Minidoc::TestCase
   class User < ::User
+    include Aliasing
     short_attribute :n, :name
   end
 

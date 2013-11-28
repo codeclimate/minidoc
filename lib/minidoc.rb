@@ -21,8 +21,28 @@ class Minidoc
   include ActiveModel::Validations
 
   attribute :_id, BSON::ObjectId
-  alias_method :id, :_id
-  alias_method :id=, :_id=
+  alias_attribute :id, :_id
+
+  def self.short_attribute(short_name, long_name)
+    attr = attribute_set[long_name].rename(short_name)
+    attribute_set[long_name] = attr
+    attribute_set.reset
+    attr.define_accessor_methods(attribute_set)
+
+    module_eval <<-STR, __FILE__, __LINE__ + 1
+      def #{short_name}
+        @#{short_name} || @#{long_name}
+      end
+
+      def #{long_name}=(value)
+        @#{long_name} = value
+      end
+
+      def #{long_name}
+        @#{short_name} || @#{long_name}
+      end
+    STR
+  end
 
   def self.create(attrs = {})
     new(attrs).tap(&:save)

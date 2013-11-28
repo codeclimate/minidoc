@@ -10,10 +10,14 @@ as simple as possible.
 
 * Interact with Ruby objects instead of hashes
 * Full access to the powerful MongoDB client
-* Robust test coverage
 * Thread safe. (Hopefully)
-* Simple and easily extensible
-* Less than 500 lines of code.
+* Simple and easily extensible (Less than 500 lines of code.)
+* Validations
+* Read only records
+* Timestamp tracking (created_at/updated_at)
+* ActiveModel-compatible
+* Attribute aliasing
+* Very basic associations (for reads)
 
 ## Anti-Features
 

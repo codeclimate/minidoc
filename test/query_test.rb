@@ -1,6 +1,18 @@
 require File.expand_path('../helper', __FILE__)
 
-class FindTest < Minidoc::TestCase
+class QueryTest < Minidoc::TestCase
+  def test_count_all
+    User.collection << { name: "Joe" }
+    User.collection << { name: "Bryan" }
+    assert_equal 2, User.count
+  end
+
+  def test_count_query
+    User.collection << { name: "Joe" }
+    User.collection << { name: "Bryan" }
+    assert_equal 1, User.count(name: "Bryan")
+  end
+
   def test_first
     assert_equal nil, User.first
     user = User.create(name: "Bryan")

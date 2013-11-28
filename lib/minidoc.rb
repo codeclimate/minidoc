@@ -9,6 +9,7 @@ class Minidoc
   require "minidoc/belongs_to"
   require "minidoc/connection"
   require "minidoc/finders"
+  require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/timestamps"
 
@@ -63,10 +64,7 @@ class Minidoc
   end
 
   def ==(other)
-    other.class == self.class &&
-    self.id &&
-    other.id &&
-    self.id == other.id
+    other.is_a?(self.class) && self.id && self.id == other.id
   end
 
   def new_record?

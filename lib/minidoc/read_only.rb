@@ -1,9 +1,13 @@
 require "minidoc"
 
 class Minidoc::ReadOnly
-  include Connection
-  include Finders
+  include Minidoc::Connection
+  include Minidoc::Finders
   include Virtus.model
+
+  def self.database
+    Minidoc.database
+  end
 
   attribute :_id, BSON::ObjectId
   alias_method :id, :_id
@@ -11,10 +15,7 @@ class Minidoc::ReadOnly
   extend ActiveModel::Naming
 
   def ==(other)
-    other.class == self.class &&
-    self.id &&
-    other.id &&
-    self.id == other.id
+    other.is_a?(self.class) && self.id && self.id == other.id
   end
 
   def to_key

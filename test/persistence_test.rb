@@ -37,9 +37,13 @@ class PersistenceTest < Minidoc::TestCase
   end
 
   def test_create
-    user = User.create(name: "Bryan")
+    user = User.create!(name: "Bryan")
     assert_equal "Bryan", user.name
     assert_equal 1, User.count
+
+    user = User.create(name: "Bryan")
+    assert_equal "Bryan", user.name
+    assert_equal 2, User.count
   end
 
   def test_update

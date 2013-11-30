@@ -29,7 +29,7 @@ class Minidoc
   end
 
   def self.create!(*args)
-    new(*args).save!
+    new(*args).tap(&:save!)
   end
 
   def self.delete(id)

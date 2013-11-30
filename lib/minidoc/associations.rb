@@ -1,6 +1,6 @@
 require "active_support/concern"
 
-module Minidoc::BelongsTo
+module Minidoc::Associations
   extend ActiveSupport::Concern
 
   module ClassMethods

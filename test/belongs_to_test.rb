@@ -2,7 +2,7 @@ require File.expand_path('../helper', __FILE__)
 
 class BelongsToTest < Minidoc::TestCase
   class Cat < Minidoc
-    include Minidoc::BelongsTo
+    include Minidoc::Associations
     belongs_to :owner, class_name: "User"
   end
 

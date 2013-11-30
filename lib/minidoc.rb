@@ -7,7 +7,7 @@ class Minidoc
   VERSION = "0.0.1"
 
   require "minidoc/aliasing"
-  require "minidoc/belongs_to"
+  require "minidoc/associations"
   require "minidoc/connection"
   require "minidoc/finders"
   require "minidoc/read_only"

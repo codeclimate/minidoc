@@ -3,7 +3,7 @@ require "minidoc"
 class Minidoc::ReadOnly
   include Minidoc::Connection
   include Minidoc::Finders
-  include Virtus.model
+  include Virtus::ValueObject
 
   def self.database
     Minidoc.database

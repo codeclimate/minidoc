@@ -13,6 +13,7 @@ class Minidoc
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/timestamps"
+  require "minidoc/value"
 
   include Connection
   include Finders
@@ -50,6 +51,16 @@ class Minidoc
     end
 
     collection.update({ "_id" => id }, "$unset" => unsets)
+  end
+
+  def self.value_class
+    @value_class ||= Class.new(self) do
+      attribute_set.each do |attr|
+        private "#{attr.name}="
+      end
+
+      private :attributes=
+    end
   end
 
   def initialize(attrs = {})
@@ -120,6 +131,10 @@ class Minidoc
     keys.each do |key|
       self[key] = nil
     end
+  end
+
+  def as_value
+    self.class.value_class.new(attributes)
   end
 
   def to_key

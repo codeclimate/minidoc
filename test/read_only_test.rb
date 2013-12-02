@@ -11,9 +11,21 @@ class ReadOnlyTest < Minidoc::TestCase
       ReadOnlyUser.create(name: "Bryan")
     end
 
-    User.create(name: "Bryan")
+    rw_user = User.create(name: "Bryan")
     user = ReadOnlyUser.first
     assert_equal "Bryan", user.name
+    assert_equal rw_user.id, user.id
+    assert_equal user, user.as_value
+
+    assert_raises NoMethodError do
+      user.name = "Noah"
+    end
+  end
+
+  def test_value
+    user = User.new(name: "Bryan")
+    user.name = "Noah"
+    user = user.as_value
 
     assert_raises NoMethodError do
       user.name = "Noah"

@@ -1,11 +1,7 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'minidoc'
-
 Gem::Specification.new do |spec|
   spec.name          = "minidoc"
-  spec.version       = Minidoc::VERSION
+  spec.version       = "0.0.1"
   spec.authors       = ["Bryan Helmkamp"]
   spec.email         = ["bryan@brynary.com"]
   spec.summary       = %q{Lightweight wrapper for MongoDB documents}

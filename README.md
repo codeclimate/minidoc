@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/brynary/minidoc.png)](https://codeclimate.com/github/brynary/minidoc)
+
 # Minidoc
 
 Minidoc is an extremely lightweight layer on top of the MongoDB client to

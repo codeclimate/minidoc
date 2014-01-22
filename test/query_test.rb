@@ -22,8 +22,8 @@ class QueryTest < Minidoc::TestCase
 
   def test_find
     user = User.create(name: "Bryan")
-    assert_equal [user], User.find({})
-    assert_equal [], User.find(name: "Noah")
+    assert_equal [user], User.find({}).to_a
+    assert_equal [], User.find(name: "Noah").to_a
   end
 
   def test_find_one

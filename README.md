@@ -36,13 +36,16 @@ things as simple as possible.
 class User < Minidoc
   attribute :name, String
   attribute :language, String
+  timestamps!
 end
 
 user = User.create!(name: "Bryan", language: "Cobol")
 User.count # => 1
 
-user.language = "Ruby"
+user.language = "Lisp"
 user.save!
+
+user.set(language: "Fortran")
 
 user.destroy
 User.count # => 0
@@ -66,4 +69,7 @@ user.valid? # => true
 ```
 
 ### Value Objects
+
 ### Associations
+
+### Read-only records

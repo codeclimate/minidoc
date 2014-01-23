@@ -38,7 +38,7 @@ class Minidoc
 
   def self.set(id, attributes)
     id = BSON::ObjectId(id.to_s)
-    collection.update({ "_id" => id }, "$set" => attributes)
+    update_one(id, "$set" => attributes)
   end
 
   def self.unset(id, *keys)
@@ -49,7 +49,11 @@ class Minidoc
       unsets[key] = 1
     end
 
-    collection.update({ "_id" => id }, "$unset" => unsets)
+    update_one(id, "$unset" => unsets)
+  end
+
+  def self.update_one(id, updates)
+    collection.update({ "_id" => id }, updates)
   end
 
   def self.value_class
@@ -130,6 +134,10 @@ class Minidoc
     keys.each do |key|
       self[key] = nil
     end
+  end
+
+  def update(updates)
+    self.class.update_one(id, updates)
   end
 
   def as_value

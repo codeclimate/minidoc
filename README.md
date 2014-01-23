@@ -14,12 +14,12 @@ things as simple as possible.
 * Full access to the powerful MongoDB client
 * Thread safe. (Hopefully)
 * Simple and easily extensible (Less than 500 lines of code.)
-* Validations
-* Read only records
-* Timestamp tracking (created_at/updated_at)
 * ActiveModel-compatible
-* Attribute aliasing
+* Validations
+* Timestamp tracking (created_at/updated_at)
 * Very basic associations (for reads)
+* Conversion into immutable value objects
+* Read-only records
 
 ## Anti-Features
 
@@ -49,6 +49,21 @@ User.count # => 0
 ```
 
 ### Validations
+
+Just uses [`ActiveMode::Validations`](http://api.rubyonrails.org/classes/ActiveModel/Validations.html):
+
+```ruby
+class User < Minidoc
+  attribute :name, String
+
+  validates :name, presence: true
+end
+
+user = User.new
+user.valid? # => false
+user.name = "Bryan"
+user.valid? # => true
+```
+
 ### Value Objects
-### Embedded Documents
 ### Associations

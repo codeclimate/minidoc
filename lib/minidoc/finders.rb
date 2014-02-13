@@ -27,13 +27,19 @@ module Minidoc::Finders
       wrap(collection.find_one(selector, options))
     end
 
+    def from_db(attrs)
+      doc = new(attrs)
+      doc.instance_variable_set("@new_record", false)
+      doc
+    end
+
     def wrap(doc)
       return nil unless doc
 
       if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
-        doc.map { |d| new(d) }
+        doc.map { |d| from_db(d) }
       else
-        new(doc)
+        from_db(doc)
       end
     end
   end

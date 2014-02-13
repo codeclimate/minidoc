@@ -24,6 +24,10 @@ class Minidoc
   attribute :_id, BSON::ObjectId
   alias_attribute :id, :_id
 
+  def self.delete_all
+    collection.remove({})
+  end
+
   def self.create(attrs = {})
     new(attrs).tap(&:save)
   end

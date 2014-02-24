@@ -18,18 +18,26 @@ class IndexesTest < Minidoc::TestCase
   end
 
   def test_ensure_index_multiple
-    Company.ensure_index(:name, :title)
+    Company.ensure_index([:name, :title])
 
     assert_equal %w( name title ), indexed_keys(Company, "name_1_title_1")
   end
 
+  def test_ensure_index_options
+    Company.ensure_index(:name, unique: true)
+
+    assert index_info(Company, "name_1")["unique"]
+  end
+
   private
 
-  def indexed_keys(klass, name)
-    index = klass.collection.index_information[name] || {}
-    index_info = index["key"] || {}
+  def index_info(klass, name)
+    klass.collection.index_information[name] || {}
+  end
 
-    index_info.keys
+  def indexed_keys(klass, name)
+    key_info = index_info(klass, name)["key"] || {}
+    key_info.keys
   end
 
 end

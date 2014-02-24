@@ -9,6 +9,7 @@ class Minidoc
   require "minidoc/associations"
   require "minidoc/connection"
   require "minidoc/finders"
+  require "minidoc/indexes"
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/timestamps"

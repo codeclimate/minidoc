@@ -13,6 +13,12 @@ class QueryTest < Minidoc::TestCase
     assert_equal 1, User.count(name: "Bryan")
   end
 
+  def test_exists
+    User.collection << { name: "Joe" }
+    assert User.exists?(name: "Joe")
+    refute User.exists?(name: "Bryan")
+  end
+
   def test_first
     assert_equal nil, User.first
     user = User.create(name: "Bryan")

@@ -12,6 +12,10 @@ module Minidoc::Finders
       collection.count(query: selector)
     end
 
+    def exists?(selector = {})
+      count(selector) > 0
+    end
+
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
         options.merge!(transformer: method(:wrap))

@@ -53,7 +53,7 @@ User.count # => 0
 
 ### Validations
 
-Just uses [`ActiveMode::Validations`](http://api.rubyonrails.org/classes/ActiveModel/Validations.html):
+Just uses [`ActiveModel::Validations`](http://api.rubyonrails.org/classes/ActiveModel/Validations.html):
 
 ```ruby
 class User < Minidoc

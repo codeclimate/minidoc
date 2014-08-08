@@ -1,6 +1,9 @@
 require 'minidoc'
 require 'minitest/autorun'
 
+I18n.enforce_available_locales = false
+I18n.load_path << File.expand_path("../locale/en.yml", __FILE__)
+
 class User < Minidoc
   attribute :name, String
 end

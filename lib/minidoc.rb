@@ -14,10 +14,12 @@ class Minidoc
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/timestamps"
+  require "minidoc/validations"
   require "minidoc/value"
 
   include Connection
   include Finders
+  include Validations
   include Virtus.model
   extend ActiveModel::Naming
   include ActiveModel::Conversion

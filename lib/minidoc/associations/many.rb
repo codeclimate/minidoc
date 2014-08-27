@@ -18,7 +18,7 @@ module Minidoc::Associations
         options = self.class.associations[name]
 
         if foreign_id = self.id
-          foreign_id_key = options[:foreign_id]
+          foreign_id_key = options[:foreign_key]
 
           record = options[:class_name].constantize.find(foreign_id_key => foreign_id)
           instance_variable_set("@#{name}", record)

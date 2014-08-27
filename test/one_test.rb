@@ -8,7 +8,7 @@ class OneTest < Minidoc::TestCase
 
   class User < ::User
     include Minidoc::Associations
-    one :cat, class_name: "OneTest::Cat", foreign_id: "owner_id"
+    one :cat, class_name: "OneTest::Cat", foreign_key: "owner_id"
   end
 
   def test_loading

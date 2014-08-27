@@ -1,15 +1,18 @@
 require "active_support/concern"
 require "minidoc/associations/belongs_to"
 require "minidoc/associations/many"
+require "minidoc/associations/one"
 
 module Minidoc::Associations
   extend ActiveSupport::Concern
   include Minidoc::Associations::BelongsTo::InstanceMethods
   include Minidoc::Associations::Many::InstanceMethods
+  include Minidoc::Associations::One::InstanceMethods
 
   module ClassMethods
     include Minidoc::Associations::BelongsTo::ClassMethods
     include Minidoc::Associations::Many::ClassMethods
+    include Minidoc::Associations::One::ClassMethods
 
     def associations
       @associations ||= {}

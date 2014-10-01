@@ -19,6 +19,10 @@ module Minidoc::Finders
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
         options.merge!(transformer: method(:wrap))
+        if page = options.delete(:page) and per_page = options.delete(:per_page)
+          options[:limit] = per_page
+          options[:skip] = (page - 1) * per_page
+        end
         collection.find(id_or_selector, options)
       else
         raise ArgumentError unless options.empty?

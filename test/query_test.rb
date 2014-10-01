@@ -32,6 +32,13 @@ class QueryTest < Minidoc::TestCase
     assert_equal [], User.find(name: "Noah").to_a
   end
 
+  def test_find_with_pagination
+    a, b, c = %w(a b c).map{ |name| User.create(name: name) }
+    assert_equal [a,b], User.find({}, { sort: "name", page: 1, per_page: 2 }).to_a
+    assert_equal [c], User.find({}, { sort: "name", page: 2, per_page: 2 }).to_a
+    assert_equal [], User.find({}, { sort: "name", page: 2, per_page: 3 }).to_a
+  end
+
   def test_find_one
     user = User.create(name: "Bryan")
     assert_equal user, User.find_one({})

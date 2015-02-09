@@ -29,6 +29,15 @@ class IndexesTest < Minidoc::TestCase
     assert index_info(Company, "name_1")["unique"]
   end
 
+  def test_rescue_duplicate_key_errors_not_raising_exception
+    Company.ensure_index(:name, unique: true)
+
+    Company.rescue_duplicate_key_errors do
+      Company.create!(name: "CodeClimate")
+      Company.create!(name: "CodeClimate")
+    end
+  end
+
   private
 
   def index_info(klass, name)

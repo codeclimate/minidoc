@@ -8,7 +8,7 @@ class User < Minidoc
   attribute :name, String
 end
 
-$mongo = Mongo::MongoClient.new
+$mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost")
 Minidoc.connection = $mongo
 Minidoc.database_name = "minidoc_test"
 

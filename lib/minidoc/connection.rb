@@ -25,4 +25,8 @@ module Minidoc::Connection
       @collection_name ||= name.demodulize.underscore.pluralize
     end
   end
+
+  if ActiveSupport.respond_to?(:run_load_hooks)
+    ActiveSupport.run_load_hooks(:mongo)
+  end
 end

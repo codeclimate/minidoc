@@ -175,4 +175,8 @@ private
   def update
     self.class.collection.update({ _id: id }, attributes)
   end
+
+  if ActiveSupport.respond_to?(:run_load_hooks)
+    ActiveSupport.run_load_hooks(:mongo)
+  end
 end

@@ -74,6 +74,30 @@ class Minidoc
     end
   end
 
+  def self.transaction
+    return yield unless tokumx?
+
+    begin
+      client.command(beginTransaction: 1)
+      yield
+    rescue Exception => error
+      client.command(rollbackTransaction: 1) rescue nil
+      raise
+    ensure
+      begin
+        client.command(commitTransaction: 1) unless error
+      rescue Exception
+        client.command(rollbackTransaction: 1)
+        raise
+      end
+    end
+  end
+
+  def self.tokumx?
+    @server_info ||= connection.server_info
+    @server_info.key?("tokumxVersion")
+  end
+
   def initialize(attrs = {})
     if attrs["_id"].nil? && attrs[:_id].nil?
       attrs[:_id] = BSON::ObjectId.new

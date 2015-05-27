@@ -1,4 +1,5 @@
 require 'minidoc'
+require 'minidoc/test_helpers'
 require 'minitest/autorun'
 
 I18n.enforce_available_locales = false
@@ -14,10 +15,6 @@ Minidoc.database_name = "minidoc_test"
 
 class Minidoc::TestCase < Minitest::Test
   def setup
-    Minidoc.database.collections.each do |coll|
-      next if coll.name.include?("system")
-      coll.remove({})
-      coll.drop_indexes
-    end
+    Minidoc::TestHelpers.clear_database
   end
 end

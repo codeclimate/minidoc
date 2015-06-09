@@ -78,16 +78,16 @@ class Minidoc
     return yield unless tokumx?
 
     begin
-      connection.command(beginTransaction: 1)
+      database.command(beginTransaction: 1)
       yield
     rescue Exception => error
-      connection.command(rollbackTransaction: 1) rescue nil
+      database.command(rollbackTransaction: 1) rescue nil
       raise
     ensure
       begin
-        connection.command(commitTransaction: 1) unless error
+        database.command(commitTransaction: 1) unless error
       rescue Exception
-        connection.command(rollbackTransaction: 1)
+        database.command(rollbackTransaction: 1)
         raise
       end
     end

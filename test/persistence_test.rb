@@ -19,6 +19,24 @@ class PersistenceTest < Minidoc::TestCase
     assert_equal false, user.new_record?
   end
 
+  def test_raises_duplicate_key_where_appropriate
+    mock_collection = mock()
+    User.stubs(:collection).returns(mock_collection)
+    mock_collection.stubs(:<<).raises(Mongo::OperationFailure.new('Duplicate key exception', Minidoc::DuplicateKey::DUPLICATE_KEY_ERROR_CODE))
+
+    user = User.new
+    assert_raises(Minidoc::DuplicateKey) { user.save }
+  end
+
+  def test_reraises_other_exception_types
+    mock_collection = mock()
+    User.stubs(:collection).returns(mock_collection)
+    mock_collection.stubs(:<<).raises(ArgumentError)
+
+    user = User.new
+    assert_raises(ArgumentError) { user.save }
+  end
+
   def test_persisted
     user = User.new
     assert_equal false, user.persisted?

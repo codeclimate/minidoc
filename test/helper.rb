@@ -1,6 +1,7 @@
 require 'minidoc'
 require 'minidoc/test_helpers'
 require 'minitest/autorun'
+require 'mocha/mini_test'
 
 I18n.enforce_available_locales = false
 I18n.load_path << File.expand_path("../locale/en.yml", __FILE__)

@@ -13,6 +13,7 @@ class Minidoc
   require "minidoc/indexes"
   require "minidoc/read_only"
   require "minidoc/record_invalid"
+  require "minidoc/duplicate_key"
   require "minidoc/timestamps"
   require "minidoc/validations"
   require "minidoc/value"
@@ -190,6 +191,12 @@ private
     new_record? ? create : update
     @new_record = false
     true
+  rescue Mongo::OperationFailure => exception
+    if duplicate_key_exception = Minidoc::DuplicateKey.duplicate_key_exception(exception)
+      raise duplicate_key_exception
+    else
+      raise
+    end
   end
 
   def create

@@ -192,7 +192,7 @@ private
     @new_record = false
     true
   rescue Mongo::OperationFailure => exception
-    if duplicate_key_exception = Minidoc::DuplicateKey.duplicate_key_exception(exception)
+    if (duplicate_key_exception = Minidoc::DuplicateKey.duplicate_key_exception(exception))
       raise duplicate_key_exception
     else
       raise

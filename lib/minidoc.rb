@@ -7,6 +7,7 @@ class Minidoc
   VERSION = "0.0.1"
 
   require "minidoc/associations"
+  require "minidoc/auto_increment"
   require "minidoc/connection"
   require "minidoc/finders"
   require "minidoc/grid"

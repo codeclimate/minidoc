@@ -8,6 +8,7 @@ class Minidoc
 
   require "minidoc/associations"
   require "minidoc/connection"
+  require "minidoc/counters"
   require "minidoc/finders"
   require "minidoc/grid"
   require "minidoc/indexes"

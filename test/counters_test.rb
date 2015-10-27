@@ -1,20 +1,20 @@
 require File.expand_path('../helper', __FILE__)
 
-class AutoIncrementTest < Minidoc::TestCase
-  class SimpleIncrement < Minidoc
-    include Minidoc::AutoIncrement
+class CountersTest < Minidoc::TestCase
+  class SimpleCounter < Minidoc
+    include Minidoc::Counters
 
-    auto_increment :counter
+    counter :counter
   end
 
-  class AdvancedIncrement < Minidoc
-    include Minidoc::AutoIncrement
+  class AdvancedCounter < Minidoc
+    include Minidoc::Counters
 
-    auto_increment :counter, start: 2, step_size: 3
+    counter :counter, start: 2, step_size: 3
   end
 
   def test_incrementing
-    x = SimpleIncrement.create!
+    x = SimpleCounter.create!
 
     assert_equal 0, x.counter
     assert_equal 1, x.next_counter
@@ -24,7 +24,7 @@ class AutoIncrementTest < Minidoc::TestCase
   end
 
   def test_options
-    x = AdvancedIncrement.create!
+    x = AdvancedCounter.create!
 
     assert_equal 2, x.counter
     assert_equal 5, x.next_counter
@@ -34,7 +34,7 @@ class AutoIncrementTest < Minidoc::TestCase
   end
 
   def test_threading
-    x = SimpleIncrement.create!
+    x = SimpleCounter.create!
     counters = []
 
     [

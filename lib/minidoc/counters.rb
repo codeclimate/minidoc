@@ -1,11 +1,11 @@
 class Minidoc
-  module AutoIncrement
+  module Counters
     def self.included(base)
       base.extend(ClassMethods)
     end
 
     module ClassMethods
-      def auto_increment(field, options = {})
+      def counter(field, options = {})
         start = options.fetch(:start, 0)
         step_size = options.fetch(:step_size, 1)
 
@@ -13,7 +13,7 @@ class Minidoc
 
         class_eval(<<-EOM)
           def next_#{field}
-            Minidoc::AutoIncrement::Incrementor.
+            Minidoc::Counters::Incrementor.
               new(self, :#{field}).next_value(#{step_size})
           end
         EOM

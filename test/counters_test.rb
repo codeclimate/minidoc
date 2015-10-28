@@ -17,9 +17,9 @@ class CountersTest < Minidoc::TestCase
     x = SimpleCounter.create!
 
     assert_equal 0, x.counter
-    assert_equal 1, x.next_counter
-    assert_equal 2, x.next_counter
-    assert_equal 3, x.next_counter
+    assert_equal 1, x.increment_counter
+    assert_equal 2, x.increment_counter
+    assert_equal 3, x.increment_counter
     assert_equal 3, x.reload.counter
   end
 
@@ -27,9 +27,9 @@ class CountersTest < Minidoc::TestCase
     x = AdvancedCounter.create!
 
     assert_equal 2, x.counter
-    assert_equal 5, x.next_counter
-    assert_equal 8, x.next_counter
-    assert_equal 11, x.next_counter
+    assert_equal 5, x.increment_counter
+    assert_equal 8, x.increment_counter
+    assert_equal 11, x.increment_counter
     assert_equal 11, x.reload.counter
   end
 
@@ -38,9 +38,9 @@ class CountersTest < Minidoc::TestCase
     counters = []
 
     [
-      Thread.new { 5.times { counters << x.next_counter } },
-      Thread.new { 5.times { counters << x.next_counter } },
-      Thread.new { 5.times { counters << x.next_counter } },
+      Thread.new { 5.times { counters << x.increment_counter } },
+      Thread.new { 5.times { counters << x.increment_counter } },
+      Thread.new { 5.times { counters << x.increment_counter } },
     ].map(&:join)
 
     assert_equal 15, counters.uniq.length

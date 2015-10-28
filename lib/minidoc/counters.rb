@@ -12,9 +12,9 @@ class Minidoc
         attribute field, Integer, default: start
 
         class_eval(<<-EOM)
-          def next_#{field}
+          def increment_#{field}
             Minidoc::Counters::Incrementor.
-              new(self, :#{field}).next_value(#{step_size})
+              new(self, :#{field}).increment(#{step_size})
           end
         EOM
       end
@@ -26,7 +26,7 @@ class Minidoc
         @field = field
       end
 
-      def next_value(step_size = 1)
+      def increment(step_size = 1)
         result = record.class.collection.find_and_modify(
           query: { _id: record.id },
           update: { "$inc" => { field => step_size } },

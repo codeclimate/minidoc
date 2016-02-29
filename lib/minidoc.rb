@@ -66,6 +66,11 @@ class Minidoc
     collection.update({ "_id" => id }, updates)
   end
 
+  def self.atomic_set(query, attributes)
+    result = collection.update(query, "$set" => attributes)
+    result["ok"] == 1 && result["n"] == 1
+  end
+
   def self.value_class
     @value_class ||= Class.new(self) do
       attribute_set.each do |attr|
@@ -172,6 +177,18 @@ class Minidoc
 
   def update(updates)
     self.class.update_one(id, updates)
+  end
+
+  def atomic_set(query, attributes)
+    query[:_id] = id
+
+    if self.class.atomic_set(query, attributes)
+      attributes.each do |name, value|
+        self[name] = value
+      end
+
+      true
+    end
   end
 
   def as_value

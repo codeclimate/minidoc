@@ -151,4 +151,33 @@ class PersistenceTest < Minidoc::TestCase
     assert_equal nil, user.name
     assert_equal nil, user.reload.name
   end
+
+  def test_atomic_set_failure
+    user = User.create(name: "from", age: 18)
+
+    refute user.atomic_set({ name: "not-from" }, name: "to")
+    assert_equal "from", user.name
+    assert_equal 18, user.age
+
+    user.reload
+    assert_equal "from", user.name
+    assert_equal 18, user.age
+  end
+
+  def test_atomic_set_success
+    user = User.create(name: "from", age: 18)
+    other_user = User.create(name: "from", age: 21)
+
+    assert user.atomic_set({ name: "from" }, name: "to")
+    assert_equal "to", user.name
+    assert_equal 18, user.age
+
+    user.reload
+    assert_equal "to", user.name
+    assert_equal 18, user.age
+
+    other_user.reload
+    assert_equal "from", other_user.name
+    assert_equal 21, other_user.age
+  end
 end

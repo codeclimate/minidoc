@@ -8,6 +8,7 @@ I18n.load_path << File.expand_path("../locale/en.yml", __FILE__)
 
 class User < Minidoc
   attribute :name, String
+  attribute :age, Integer
 end
 
 $mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost")

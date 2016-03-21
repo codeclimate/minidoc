@@ -81,11 +81,14 @@ class Minidoc
     end
   end
 
-  def self.transaction
+  # For databases that support it (e.g. TokuMX), perform the block within a
+  # transaction. For information on the +isolation+ argument, see
+  # https://www.percona.com/doc/percona-tokumx/commands.html#beginTransaction
+  def self.transaction(isolation = "mvcc")
     return yield unless tokumx?
 
     begin
-      database.command(beginTransaction: 1)
+      database.command(beginTransaction: 1, isolation: isolation)
       yield
     rescue Exception => error
       database.command(rollbackTransaction: 1) rescue nil

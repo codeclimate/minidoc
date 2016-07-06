@@ -178,10 +178,6 @@ class Minidoc
     end
   end
 
-  def update(updates)
-    self.class.update_one(id, updates)
-  end
-
   def atomic_set(query, attributes)
     query[:_id] = id
 

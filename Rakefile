@@ -3,6 +3,7 @@ require 'rake/testtask'
 
 Rake::TestTask.new do |t|
   t.libs.push "lib"
+  t.ruby_opts = %w[-W0]
   t.test_files = FileList['test/*_test.rb']
   t.verbose = true
 end

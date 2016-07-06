@@ -103,6 +103,20 @@ class Minidoc
     end
   end
 
+  # Rescue a duplicate key exception in the given block. Returns the result of
+  # the block, or +false+ if the exception was raised.
+  def self.rescue_duplicate_key_errors
+    yield
+  rescue Minidoc::DuplicateKey
+    false
+  rescue Mongo::OperationFailure => ex
+    if Minidoc::DuplicateKey.duplicate_key_exception(ex)
+      false
+    else
+      raise
+    end
+  end
+
   def self.tokumx?
     @server_info ||= connection.server_info
     @server_info.key?("tokumxVersion")

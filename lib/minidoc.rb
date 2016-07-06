@@ -11,7 +11,6 @@ class Minidoc
   require "minidoc/counters"
   require "minidoc/finders"
   require "minidoc/grid"
-  require "minidoc/indexes"
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/duplicate_key"

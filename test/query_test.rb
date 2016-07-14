@@ -1,6 +1,13 @@
 require File.expand_path('../helper', __FILE__)
 
 class QueryTest < Minidoc::TestCase
+  def test_all
+    User.collection << { name: "Joe" }
+    User.collection << { name: "Bryan" }
+    users = User.all
+    assert_equal %w[Bryan Joe], users.map(&:name).sort
+  end
+
   def test_count_all
     User.collection << { name: "Joe" }
     User.collection << { name: "Bryan" }

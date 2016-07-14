@@ -4,6 +4,10 @@ module Minidoc::Finders
   extend ActiveSupport::Concern
 
   module ClassMethods
+    def all
+      find({})
+    end
+
     def first
       find_one({})
     end

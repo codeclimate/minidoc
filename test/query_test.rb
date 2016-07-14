@@ -44,4 +44,10 @@ class QueryTest < Minidoc::TestCase
     assert_equal user, User.find_one({})
     assert_equal nil, User.find_one(name: "Noah")
   end
+
+  def test_find_one!
+    user = User.create(name: "Bryan")
+    assert_equal user, User.find_one!(name: "Bryan")
+    assert_raises(Minidoc::DocumentNotFoundError) { User.find_one!(name: "Noah") }
+  end
 end

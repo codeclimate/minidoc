@@ -3,7 +3,13 @@ require "active_support/concern"
 module Minidoc::Finders
   extend ActiveSupport::Concern
 
+  DocumentNotFoundError = Class.new(StandardError)
+
   module ClassMethods
+    def all
+      find({})
+    end
+
     def first
       find_one({})
     end
@@ -29,6 +35,10 @@ module Minidoc::Finders
 
     def find_one(selector, options = {})
       wrap(collection.find_one(selector, options))
+    end
+
+    def find_one!(query, options = {})
+      find_one(query, options) or raise DocumentNotFoundError
     end
 
     def from_db(attrs)

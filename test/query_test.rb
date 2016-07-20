@@ -1,6 +1,13 @@
 require File.expand_path('../helper', __FILE__)
 
 class QueryTest < Minidoc::TestCase
+  def test_all
+    User.collection << { name: "Joe" }
+    User.collection << { name: "Bryan" }
+    users = User.all
+    assert_equal %w[Bryan Joe], users.map(&:name).sort
+  end
+
   def test_count_all
     User.collection << { name: "Joe" }
     User.collection << { name: "Bryan" }
@@ -36,5 +43,11 @@ class QueryTest < Minidoc::TestCase
     user = User.create(name: "Bryan")
     assert_equal user, User.find_one({})
     assert_equal nil, User.find_one(name: "Noah")
+  end
+
+  def test_find_one!
+    user = User.create(name: "Bryan")
+    assert_equal user, User.find_one!(name: "Bryan")
+    assert_raises(Minidoc::DocumentNotFoundError) { User.find_one!(name: "Noah") }
   end
 end

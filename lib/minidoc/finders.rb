@@ -19,7 +19,7 @@ module Minidoc::Finders
     end
 
     def exists?(selector = {})
-      count(selector) > 0
+      find_one(selector).present?
     end
 
     def find(id_or_selector, options = {})

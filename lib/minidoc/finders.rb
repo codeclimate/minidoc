@@ -41,6 +41,11 @@ module Minidoc::Finders
       find_one(query, options) or raise DocumentNotFoundError
     end
 
+    def find_one_or_initialize(attributes, options = {})
+      raise ArgumentError unless attributes.is_a?(Hash)
+      find_one(attributes, options) || new(attributes)
+    end
+
     def from_db(attrs)
       doc = new(attrs)
       doc.instance_variable_set("@new_record", false)

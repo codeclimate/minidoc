@@ -1,5 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/brynary/minidoc.svg)](https://codeclimate.com/github/brynary/minidoc)
-[![Build Status](https://travis-ci.org/brynary/minidoc.svg)](https://travis-ci.org/brynary/minidoc)
+[![Build Status](https://travis-ci.org/codeclimate/minidoc.svg)](https://travis-ci.org/codeclimate/minidoc)
 
 # Minidoc
 

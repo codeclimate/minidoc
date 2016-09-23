@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Bryan Helmkamp"]
   spec.email         = ["bryan@brynary.com"]
   spec.summary       = %q{Lightweight wrapper for MongoDB documents}
-  spec.homepage      = "https://github.com/brynary/minidoc"
+  spec.homepage      = "https://github.com/codeclimate/minidoc"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

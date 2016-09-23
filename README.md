@@ -1,4 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/brynary/minidoc.svg)](https://codeclimate.com/github/brynary/minidoc)
+[![Code Climate](https://codeclimate.com/github/codeclimate/minidoc/badges/gpa.svg)](https://codeclimate.com/github/codeclimate/minidoc)
 [![Build Status](https://travis-ci.org/codeclimate/minidoc.svg)](https://travis-ci.org/codeclimate/minidoc)
 
 # Minidoc

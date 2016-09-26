@@ -72,6 +72,21 @@ class PersistenceTest < Minidoc::TestCase
     assert_equal "Noah", user.reload.name
   end
 
+  def test_update_same_collection
+    user = User.create(name: "Bryan", age: 20)
+    user.name = "Noah"
+    assert_equal "Noah", user.name
+    user.save
+    assert_equal "Noah", user.reload.name
+    second_user = SecondUser.find_one(age: 20)
+    assert_equal second_user.id, user.id
+    second_user.age = 21
+    assert_equal 21, second_user.age
+    second_user.save
+    assert_equal 21, second_user.reload.age
+    assert_equal "Noah", user.reload.name
+  end
+
   def test_destroy
     user = User.create(name: "Bryan")
     assert_equal false, user.destroyed?

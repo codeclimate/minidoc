@@ -234,7 +234,7 @@ private
   end
 
   def update
-    self.class.collection.update({ _id: id }, attributes)
+    self.class.collection.update({ _id: id }, { "$set" => attributes.except(:_id) })
   end
 
   if ActiveSupport.respond_to?(:run_load_hooks)

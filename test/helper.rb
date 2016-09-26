@@ -7,7 +7,15 @@ I18n.enforce_available_locales = false
 I18n.load_path << File.expand_path("../locale/en.yml", __FILE__)
 
 class User < Minidoc
+  self.collection_name = "users"
+
   attribute :name, String
+  attribute :age, Integer
+end
+
+class SecondUser < Minidoc
+  self.collection_name = "users"
+
   attribute :age, Integer
 end
 

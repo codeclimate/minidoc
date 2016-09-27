@@ -50,4 +50,15 @@ class QueryTest < Minidoc::TestCase
     assert_equal user, User.find_one!(name: "Bryan")
     assert_raises(Minidoc::DocumentNotFoundError) { User.find_one!(name: "Noah") }
   end
+
+  def test_find_one_or_initialize
+    user = User.create(name: "Bryan", age: 1)
+    assert user == User.find_one_or_initialize(name: "Bryan")
+    assert User.find_one_or_initialize(name: "Noah").is_a?(User)
+    assert User.find_one_or_initialize(name: "Noah").new_record?
+    user = User.create(name: "Noah", age: 1)
+    assert user == User.find_one_or_initialize({ age: 1 }, { sort: { name: -1 } })
+    assert_raises(ArgumentError) { User.find_one_or_initialize("foo") }
+  end
+
 end

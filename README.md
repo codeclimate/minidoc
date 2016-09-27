@@ -1,4 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/codeclimate/minidoc/badges/gpa.svg)](https://codeclimate.com/github/codeclimate/minidoc)
+[![Test Coverage](https://codeclimate.com/github/codeclimate/minidoc/badges/coverage.svg)](https://codeclimate.com/github/codeclimate/minidoc/coverage)
 [![Build Status](https://travis-ci.org/codeclimate/minidoc.svg)](https://travis-ci.org/codeclimate/minidoc)
 
 # Minidoc

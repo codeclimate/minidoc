@@ -6,3 +6,7 @@ rvm:
 services: mongodb
 before_install:
   - gem update bundler
+script:
+  - CODECLIMATE_REPO_TOKEN=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d rake
+after_script:
+  - bundle exec codeclimate-test-reporter

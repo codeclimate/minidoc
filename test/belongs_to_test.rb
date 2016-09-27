@@ -6,6 +6,11 @@ class BelongsToTest < Minidoc::TestCase
     belongs_to :owner, class_name: "User"
   end
 
+  class Dog < Minidoc
+    include Minidoc::Associations
+    belongs_to :user
+  end
+
   class User < ::User
   end
 
@@ -45,5 +50,14 @@ class BelongsToTest < Minidoc::TestCase
     assert_equal "Bryan", cat.owner.name # doesn't change
     cat.owner_id = user.id
     assert_equal "Noah", cat.owner.name # changes
+  end
+
+  def test_inferred_class_name
+    assert_nil Dog.new.user
+    user = User.create
+    sam = Dog.new(user_id: user.id)
+    assert_equal user.id, sam.user.id
+    sam.save
+    assert_equal user.id, sam.user.id
   end
 end

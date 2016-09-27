@@ -9,6 +9,8 @@ module Minidoc::Associations
     end
 
     def belongs_to(association_name, options = {})
+      options[:class_name] ||= association_name.to_s.camelize
+
       association_name = association_name.to_sym
       associations[association_name] = options
 

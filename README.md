@@ -1,6 +1,7 @@
+[![Build Status](https://travis-ci.org/codeclimate/minidoc.svg)](https://travis-ci.org/codeclimate/minidoc)
+[![Gem Version](https://badge.fury.io/rb/minidoc.svg)](http://badge.fury.io/rb/minidoc)
 [![Code Climate](https://codeclimate.com/github/codeclimate/minidoc/badges/gpa.svg)](https://codeclimate.com/github/codeclimate/minidoc)
 [![Test Coverage](https://codeclimate.com/github/codeclimate/minidoc/badges/coverage.svg)](https://codeclimate.com/github/codeclimate/minidoc/coverage)
-[![Build Status](https://travis-ci.org/codeclimate/minidoc.svg)](https://travis-ci.org/codeclimate/minidoc)
 
 # Minidoc
 
@@ -28,14 +29,41 @@ things as simple as possible.
 * Custom query API (just use Mongo)
 * Callbacks (just define a method like save and call super)
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem "minidoc"
+```
+
+And then execute:
+
+```
+$ bundle
+```
+
+Or install it yourself as:
+
+```
+$ gem install minidoc
+```
+
 ## Usage
 
-    gem "minidoc", "~> 0.0.1"
+### Setup
+
+```ruby
+Minidoc.connection = Mongo::MongoClient.from_uri("mongodb://localhost")
+Minidoc.database_name = "my_great_app_development"
+```
 
 ### Basics
 
 ```ruby
 class User < Minidoc
+  include Minidoc::Timestamps
+
   attribute :name, String
   attribute :language, String
   timestamps!
@@ -72,6 +100,53 @@ user.valid? # => true
 
 ### Value Objects
 
+```ruby
+bryan = User.create(name: "Bryan").as_value
+bryan.name #=> "Bryan"
+bryan.name = "Brian" #=> NoMethodError
+```
+
 ### Associations
 
+```ruby
+class Drink < Minidoc
+  include Minidoc::Associations
+
+  attribute :name, String
+
+  belongs_to :user
+end
+
+bryan = User.create(name: "Bryan")
+drink = Drink.create(name: "Paloma", user: bryan)
+drink.user == bryan #=> true
+```
+
 ### Read-only records
+
+```ruby
+class DrinkEvents < Minidoc::ReadOnly
+  include Minidoc::Timestamps
+  timestamps!
+end
+
+DrinkEvents.count(created_at: { "$gt": 4.days.ago }) #=> 0
+DrinkEvents.create #=> NoMethodError
+```
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/codeclimate/minidoc. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+When making a pull request, please update the [changelog](CHANGELOG.md).
+
+## Releasing
+
+* Update the changelog to mark the unreleased changes as part of the new release.
+* Copy the relevant changelog entries into a new GitHub release.
+* Update the version.rb with the new version number
+* Commit and push to master
+* `rake release` which will
+  * tag the latest commit based on version.rb
+  * push to github
+  * push to rubygems

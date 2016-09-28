@@ -1,9 +1,13 @@
 # coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'minidoc/version'
+
 Gem::Specification.new do |spec|
   spec.name          = "minidoc"
-  spec.version       = "0.0.1"
-  spec.authors       = ["Bryan Helmkamp"]
-  spec.email         = ["bryan@brynary.com"]
+  spec.version       = Minidoc::VERSION
+  spec.authors       = ["Bryan Helmkamp", "Code Climate"]
+  spec.email         = ["bryan@brynary.com", "hello@codeclimate.com"]
   spec.summary       = %q{Lightweight wrapper for MongoDB documents}
   spec.homepage      = "https://github.com/codeclimate/minidoc"
   spec.license       = "MIT"
@@ -15,11 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport", ">= 3.0.0", "< 5"
   spec.add_dependency "activemodel", ">= 3.0.0", "< 5"
-  spec.add_dependency "virtus", "~> 1.0.0"
+  spec.add_dependency "virtus", "~> 1.0", ">= 1.0.0"
   spec.add_dependency "mongo", "~> 1"
-  spec.add_development_dependency "minitest"
-  spec.add_development_dependency "mocha"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "simplecov"
-  spec.add_development_dependency "codeclimate-test-reporter", "1.0.0.pre.rc2"
 end

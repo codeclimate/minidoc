@@ -1,4 +1,4 @@
-Copyright (c) 2013 Bryan Helmkamp
+Copyright (c) 2016 Bryan Helmkamp
 
 MIT License
 

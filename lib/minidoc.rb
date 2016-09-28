@@ -4,8 +4,6 @@ require "active_model"
 require "active_support/core_ext"
 
 class Minidoc
-  VERSION = "0.0.1"
-
   require "minidoc/associations"
   require "minidoc/connection"
   require "minidoc/counters"
@@ -17,6 +15,7 @@ class Minidoc
   require "minidoc/timestamps"
   require "minidoc/validations"
   require "minidoc/value"
+  require "minidoc/version"
 
   include Connection
   include Finders

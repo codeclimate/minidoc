@@ -1,20 +1,20 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'minidoc/version'
+require "minidoc/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "minidoc"
-  spec.version       = Minidoc::VERSION
-  spec.authors       = ["Bryan Helmkamp", "Code Climate"]
-  spec.email         = ["bryan@brynary.com", "hello@codeclimate.com"]
-  spec.summary       = %q{Lightweight wrapper for MongoDB documents}
-  spec.homepage      = "https://github.com/codeclimate/minidoc"
-  spec.license       = "MIT"
+  spec.name = "minidoc"
+  spec.version = Minidoc::VERSION
+  spec.authors = ["Bryan Helmkamp", "Code Climate"]
+  spec.email = ["bryan@brynary.com", "hello@codeclimate.com"]
+  spec.summary = %q{Lightweight wrapper for MongoDB documents}
+  spec.homepage = "https://github.com/codeclimate/minidoc"
+  spec.license = "MIT"
 
-  spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.files = `git ls-files`.split($/)
+  spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport", ">= 3.0.0", "< 5"

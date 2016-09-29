@@ -1,15 +1,15 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path("../helper", __FILE__)
 
 class PersistenceTest < Minidoc::TestCase
   def test_ids
     user = User.new
     assert_equal BSON::ObjectId, user.id.class
 
-    user = User.new(_id: BSON::ObjectId('52955cc5f9f6a538a9000001'))
-    assert_equal BSON::ObjectId('52955cc5f9f6a538a9000001'), user.id
+    user = User.new(_id: BSON::ObjectId("52955cc5f9f6a538a9000001"))
+    assert_equal BSON::ObjectId("52955cc5f9f6a538a9000001"), user.id
 
-    user = User.new("_id" => BSON::ObjectId('52955cc5f9f6a538a9000001'))
-    assert_equal BSON::ObjectId('52955cc5f9f6a538a9000001'), user.id
+    user = User.new("_id" => BSON::ObjectId("52955cc5f9f6a538a9000001"))
+    assert_equal BSON::ObjectId("52955cc5f9f6a538a9000001"), user.id
   end
 
   def test_new_record
@@ -22,7 +22,7 @@ class PersistenceTest < Minidoc::TestCase
   def test_raises_duplicate_key_where_appropriate
     mock_collection = mock()
     User.stubs(:collection).returns(mock_collection)
-    mock_collection.stubs(:<<).raises(Mongo::OperationFailure.new('Duplicate key exception', Minidoc::DuplicateKey::DUPLICATE_KEY_ERROR_CODE))
+    mock_collection.stubs(:<<).raises(Mongo::OperationFailure.new("Duplicate key exception", Minidoc::DuplicateKey::DUPLICATE_KEY_ERROR_CODE))
 
     user = User.new
     assert_raises(Minidoc::DuplicateKey) { user.save }

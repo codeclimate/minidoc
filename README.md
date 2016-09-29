@@ -143,10 +143,10 @@ When making a pull request, please update the [changelog](CHANGELOG.md).
 ## Releasing
 
 * Update the changelog to mark the unreleased changes as part of the new release.
-* Copy the relevant changelog entries into a new GitHub release.
 * Update the version.rb with the new version number
 * Commit and push to master
 * `rake release` which will
   * tag the latest commit based on version.rb
   * push to github
   * push to rubygems
+* Copy the relevant changelog entries into a new [GitHub release](https://github.com/codeclimate/minidoc/releases).

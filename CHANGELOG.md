@@ -4,6 +4,14 @@
 
 ### New features
 
+### Bug fixes
+
+### Changes
+
+## v1.0.0.rc1 (2016-09-29)
+
+### New features
+
 * [#24](https://github.com/codeclimate/minidoc/pull/24): Add `Minidoc.all`. ([@pbrisbin][])
 * [#24](https://github.com/codeclimate/minidoc/pull/24): Add `Minidoc.find_one!`. ([@pbrisbin][])
 * [#28](https://github.com/codeclimate/minidoc/pull/28): Add `Minidoc.find_one_or_initialize`. ([@nporteschaikin][])

@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path("../helper", __FILE__)
 
 class ActiveModelTest < Minidoc::TestCase
   def test_model_name
@@ -12,13 +12,13 @@ class ActiveModelTest < Minidoc::TestCase
 
   def test_to_key
     user = User.new
-    user.id = BSON::ObjectId('52955618f9f6a52444000001')
+    user.id = BSON::ObjectId("52955618f9f6a52444000001")
     assert_equal ["52955618f9f6a52444000001"], user.to_key
   end
 
   def test_to_param
     user = User.new
-    user.id = BSON::ObjectId('52955618f9f6a52444000001')
+    user.id = BSON::ObjectId("52955618f9f6a52444000001")
     assert_equal "52955618f9f6a52444000001", user.to_param
   end
 

@@ -13,6 +13,7 @@
 
 * [#26](https://github.com/codeclimate/minidoc/pull/26): Improve performance of `Minidoc.exists?`. ([@wfleming][])
 * [#31](https://github.com/codeclimate/minidoc/pull/31): Fix `save` dropping some attributes. ([@nporteschaikin][])
+* Improve errors when the user has forgotten to provide database connection information. ([@maxjacobson][])
 
 ### Changes
 
@@ -24,6 +25,7 @@ Minidoc was originally created by [@brynary][] and has been used in production e
 This is the first version released to rubygems.
 
 [@brynary]: https://github.com/brynary
+[@maxjacobson]: https://github.com/maxjacobson
 [@nporteschaikin]: https://github.com/nporteschaikin
 [@pbrisbin]: https://github.com/pbrisbin
 [@wfleming]: https://github.com/wfleming

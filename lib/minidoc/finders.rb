@@ -33,15 +33,15 @@ module Minidoc::Finders
       end
     end
 
-    def find_one(selector, options = {})
+    def find_one(selector = {}, options = {})
       wrap(collection.find_one(selector, options))
     end
 
-    def find_one!(selector, options = {})
+    def find_one!(selector = {}, options = {})
       find_one(selector, options) or raise DocumentNotFoundError
     end
 
-    def find_one_or_initialize(attributes, options = {})
+    def find_one_or_initialize(attributes = {}, options = {})
       raise ArgumentError unless attributes.is_a?(Hash)
       find_one(attributes, options) || new(attributes)
     end

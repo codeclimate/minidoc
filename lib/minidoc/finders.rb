@@ -46,6 +46,8 @@ module Minidoc::Finders
       find_one(attributes, options) || new(attributes)
     end
 
+    private
+
     def from_db(attrs)
       doc = new(attrs)
       doc.instance_variable_set("@new_record", false)

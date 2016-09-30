@@ -4,9 +4,13 @@
 
 ### New features
 
+* Allow omitting selectors to finder methods. ([@maxjacobson][])
+
 ### Bug fixes
 
 ### Changes
+
+* Make Minidoc.wrap and Minidoc.from_db private. ([@maxjacobson][])
 
 ## v1.0.0.rc1 (2016-09-29)
 
@@ -16,7 +20,6 @@
 * [#24](https://github.com/codeclimate/minidoc/pull/24): Add `Minidoc.find_one!`. ([@pbrisbin][])
 * [#28](https://github.com/codeclimate/minidoc/pull/28): Add `Minidoc.find_one_or_initialize`. ([@nporteschaikin][])
 * [#32](https://github.com/codeclimate/minidoc/pull/32): Infer class names for associations when not provided. ([@wfleming][])
-* Allow omitting selectors to finder methods. ([@maxjacobson][])
 
 ### Bug fixes
 

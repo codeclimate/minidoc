@@ -37,8 +37,8 @@ module Minidoc::Finders
       wrap(collection.find_one(selector, options))
     end
 
-    def find_one!(query, options = {})
-      find_one(query, options) or raise DocumentNotFoundError
+    def find_one!(selector, options = {})
+      find_one(selector, options) or raise DocumentNotFoundError
     end
 
     def find_one_or_initialize(attributes, options = {})

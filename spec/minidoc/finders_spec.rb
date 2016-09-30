@@ -53,14 +53,17 @@ describe Minidoc::Finders do
     it "returns the first document that matches a query" do
       user = User.create(name: "Bryan")
       expect(User.find_one({})).to eq user
+      expect(User.find_one).to eq user
       expect(User.find_one(name: "Noah")).to eq nil
     end
   end
 
   describe ".find_one!" do
     it "returns the first document that matches a query or raises an error" do
+      expect { User.find_one! }.to raise_error(Minidoc::DocumentNotFoundError)
       user = User.create(name: "Bryan")
       expect(User.find_one!(name: "Bryan")).to eq user
+      expect(User.find_one!).to eq user
       expect { User.find_one!(name: "Noah") }.to raise_error(Minidoc::DocumentNotFoundError)
     end
   end
@@ -71,6 +74,12 @@ describe Minidoc::Finders do
       expect((user == User.find_one_or_initialize(name: "Bryan"))).to be_truthy
       expect(User.find_one_or_initialize(name: "Noah").is_a?(User)).to eq true
       expect(User.find_one_or_initialize(name: "Noah").new_record?).to eq true
+    end
+
+    it "doesn't require attributes" do
+      expect(User.find_one_or_initialize).to be_a User
+      user = User.create(name: "Bryan", age: 1)
+      expect(user).to eq User.find_one_or_initialize
     end
 
     it "allows query options" do

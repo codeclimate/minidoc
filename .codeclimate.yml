@@ -13,4 +13,4 @@ ratings:
   paths:
   - "**.rb"
 exclude_paths:
-- test/
+- spec/

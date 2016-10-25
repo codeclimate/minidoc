@@ -157,7 +157,7 @@ class Minidoc
   end
 
   def reload
-    new_object = self.class.find(self.id)
+    new_object = self.class.find(self.id) or raise DocumentNotFoundError
 
     self.class.attribute_set.each do |attr|
       self[attr.name] = new_object[attr.name]

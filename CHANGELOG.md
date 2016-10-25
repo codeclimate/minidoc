@@ -8,6 +8,8 @@
 
 ### Bug fixes
 
+* Minidoc#reload will raise Minidoc::DocumentNotFoundError when the document no longer exists, rather than a nil error. ([@maxjacobson][])
+
 ### Changes
 
 * Make Minidoc.wrap and Minidoc.from_db private. ([@maxjacobson][])

@@ -242,6 +242,8 @@ describe Minidoc do
       User.delete(user.id)
 
       expect(User.count).to eq 0
+
+      expect { user.reload }.to raise_error(Minidoc::DocumentNotFoundError)
     end
   end
 

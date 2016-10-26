@@ -4,6 +4,14 @@
 
 ### New features
 
+### Bug fixes
+
+### Changes
+
+## v1.0.0.rc2 (2016-10-26)
+
+### New features
+
 * Allow omitting selectors to finder methods. ([@maxjacobson][])
 
 ### Bug fixes

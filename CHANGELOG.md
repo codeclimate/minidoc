@@ -8,6 +8,12 @@
 
 ### Changes
 
+## v1.0.0 (2016-10-27)
+
+No changes! Same as v1.0.0.rc2
+
+:tada:
+
 ## v1.0.0.rc2 (2016-10-26)
 
 ### New features

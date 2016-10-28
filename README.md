@@ -144,7 +144,9 @@ When making a pull request, please update the [changelog](CHANGELOG.md).
 
 * Update the changelog to mark the unreleased changes as part of the new release.
 * Update the version.rb with the new version number
-* Commit and push to master (may need to make a Pull Request because master is protected)
+* Make a pull request with those changes
+* Merge those changes to master
+* Check out and pull down the latest master locally
 * `rake release` which will
   * tag the latest commit based on version.rb
   * push to github

@@ -15,6 +15,28 @@ module Minidoc::Timestamps
     end
   end
 
+  def set(attributes)
+    if self.class.record_timestamps
+      super(attributes.merge(updated_at: Time.now.utc))
+    else
+      super(attributes)
+    end
+  end
+
+  def atomic_set(query, attributes)
+    if self.class.record_timestamps
+      super(query, attributes.merge(updated_at: Time.now.utc))
+    else
+      super(query, attributes)
+    end
+  end
+
+  def unset(*keys)
+    super
+
+    set(updated_at: Time.now.utc) if self.class.record_timestamps
+  end
+
 private
 
   def create

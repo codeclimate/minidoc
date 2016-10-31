@@ -6,9 +6,13 @@
 
 ### Bug fixes
 
-* Updated `updated_at` when enabled from all setter methods. ([@wfleming][])
-
 ### Changes
+
+## v1.0.1 (2016-10-31)
+
+### Bug fixes
+
+* Updated `updated_at` when enabled from all setter methods. ([@wfleming][])
 
 ## v1.0.0 (2016-10-27)
 

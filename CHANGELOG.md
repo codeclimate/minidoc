@@ -8,6 +8,8 @@
 
 ### Changes
 
+* Removed transaction support. ([@wfleming][])
+
 ## v1.0.1 (2016-10-31)
 
 ### Bug fixes

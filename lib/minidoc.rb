@@ -79,28 +79,6 @@ class Minidoc
     end
   end
 
-  # For databases that support it (e.g. TokuMX), perform the block within a
-  # transaction. For information on the +isolation+ argument, see
-  # https://www.percona.com/doc/percona-tokumx/commands.html#beginTransaction
-  def self.transaction(isolation = "mvcc")
-    return yield unless tokumx?
-
-    begin
-      database.command(beginTransaction: 1, isolation: isolation)
-      yield
-    rescue Exception => error
-      database.command(rollbackTransaction: 1) rescue nil
-      raise
-    ensure
-      begin
-        database.command(commitTransaction: 1) unless error
-      rescue Exception
-        database.command(rollbackTransaction: 1)
-        raise
-      end
-    end
-  end
-
   # Rescue a duplicate key exception in the given block. Returns the result of
   # the block, or +false+ if the exception was raised.
   def self.rescue_duplicate_key_errors
@@ -113,11 +91,6 @@ class Minidoc
     else
       raise
     end
-  end
-
-  def self.tokumx?
-    @server_info ||= connection.server_info
-    @server_info.key?("tokumxVersion")
   end
 
   def initialize(attrs = {})

@@ -148,6 +148,31 @@ describe Minidoc do
       expect(user.name).to eq "Noah"
       expect(user.age).to eq 21
     end
+
+    it "sets fields you didn't ask it to" do
+      id_one = User.collection.insert(name: "Bryan")
+      doc_one = User.collection.find_one(_id: id_one)
+      expect(doc_one.keys).to eq(["_id", "name"])
+
+      id_two = User.create!(name: "Noah").id
+      doc_two = User.collection.find_one(_id: id_two)
+      expect(doc_two.keys).to eq(["_id", "name", "age"])
+
+      user_one = User.find(id_one)
+      user_one.set(name: "Brian")
+      doc_one = User.collection.find_one(_id: id_one)
+      expect(doc_one.keys).to eq(["_id", "name"])
+
+      user_one = User.find(id_one)
+      user_one.save
+      doc_one = User.collection.find_one(_id: id_one)
+      expect(doc_one.keys).to eq(["_id", "name", "age"])
+      expect(doc_one["age"]).to be_nil
+
+      # the above passes :/
+      # we didn't want to get `age: nil` in our database, but now we have it
+    end
+
   end
 
   describe "#save!" do

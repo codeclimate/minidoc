@@ -3,8 +3,8 @@ require "spec_helper"
 describe Minidoc::Finders do
   describe ".all" do
     it "returns all of the documents in the collection" do
-      (User.collection << { name: "Joe" })
-      (User.collection << { name: "Bryan" })
+      User.collection.insert_one(name: "Joe")
+      User.collection.insert_one(name: "Bryan")
       users = User.all
       expect(["Bryan", "Joe"]).to match_array(users.map(&:name))
     end
@@ -12,21 +12,21 @@ describe Minidoc::Finders do
 
   describe ".count" do
     it "counts the documents in the collection" do
-      (User.collection << { name: "Joe" })
-      (User.collection << { name: "Bryan" })
+      User.collection.insert_one(name: "Joe")
+      User.collection.insert_one(name: "Bryan")
       expect(User.count).to eq 2
     end
 
     it "can be scoped by a query" do
-      (User.collection << { name: "Joe" })
-      (User.collection << { name: "Bryan" })
+      User.collection.insert_one(name: "Joe")
+      User.collection.insert_one(name: "Bryan")
       expect(User.count(name: "Bryan")).to eq 1
     end
   end
 
   describe ".exists?" do
     it "tells you if any documents exist that match a query" do
-      (User.collection << { name: "Joe" })
+      User.collection.insert_one(name: "Joe")
       expect(User.exists?(name: "Joe")).to be(true)
       expect(User.exists?(name: "Bryan")).to be(false)
     end

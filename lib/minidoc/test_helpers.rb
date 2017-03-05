@@ -12,7 +12,7 @@ class Minidoc
     end
 
     def clear_collections(connection = Minidoc.connection)
-      each_collection(connection) { |c| c.remove({}) }
+      each_collectio(connection)(&:drop)
     end
 
     def clear_indexes(connection = Minidoc.connection)

@@ -3,6 +3,9 @@ require "spec_helper"
 describe Minidoc::ReadOnly do
   class ReadOnlyUser < Minidoc::ReadOnly
     self.collection_name = "users"
+    self.database_name = "minidoc_test"
+    self.connection = $mongo
+
     attribute :name, String
   end
 

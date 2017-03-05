@@ -15,7 +15,7 @@ module Minidoc::Finders
     end
 
     def count(selector = {})
-      collection.count(query: selector)
+      collection.count(selector)
     end
 
     def exists?(selector = {})
@@ -24,17 +24,16 @@ module Minidoc::Finders
 
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
-        options.merge!(transformer: method(:wrap))
-        collection.find(id_or_selector, options)
+        collection.find(id_or_selector, options).lazy.map(&method(:wrap))
       else
         raise ArgumentError unless options.empty?
         id = BSON::ObjectId(id_or_selector.to_s)
-        wrap(collection.find_one(_id: id))
+        wrap(collection.find(_id: id).first)
       end
     end
 
     def find_one(selector = {}, options = {})
-      wrap(collection.find_one(selector, options))
+      wrap(collection.find(selector, options).first)
     end
 
     def find_one!(selector = {}, options = {})

@@ -12,12 +12,13 @@ module Minidoc::Connection
 
   module ClassMethods
     def collection
-      database[collection_name]
+      validate_config
+      connection.use(database_name)
+      connection[collection_name]
     end
 
     def database
-      validate_config
-      connection[database_name]
+      connection.use(database_name).database
     end
 
     def collection_name=(name)

@@ -10,7 +10,6 @@ describe Minidoc::Grid do
 
       document = grid.get doc_id.to_s
 
-      expect(document).to be_a Mongo::GridIO
       expect(document.read).to eq "estamos en espana"
     end
   end
@@ -30,9 +29,9 @@ describe Minidoc::Grid do
     it "removes the 'file' from the database" do
       doc_id = grid.put "estamos en espana"
 
+      expect(grid.get(doc_id).read).to eq("estamos en espana")
       grid.delete doc_id.to_s
-
-      expect { grid.get doc_id }.to raise_error(Mongo::GridFileNotFound)
+      expect { grid.get(doc_id) }.to raise_error(Mongo::Error::FileNotFound)
     end
   end
 end

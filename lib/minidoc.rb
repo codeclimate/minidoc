@@ -41,7 +41,7 @@ class Minidoc
   end
 
   def self.delete(id)
-    collection.remove(_id: BSON::ObjectId(id.to_s))
+    collection.delete_one(_id: BSON::ObjectId(id.to_s))
   end
 
   def self.set(id, attributes)
@@ -61,12 +61,12 @@ class Minidoc
   end
 
   def self.update_one(id, updates)
-    collection.update({ "_id" => id }, updates)
+    collection.update_one({ "_id" => id }, updates)
   end
 
   def self.atomic_set(query, attributes)
-    result = collection.update(query, "$set" => attributes)
-    result["ok"] == 1 && result["n"] == 1
+    result = collection.update_one(query, "$set" => attributes)
+    result.ok? && result.n == 1
   end
 
   def self.value_class
@@ -85,7 +85,7 @@ class Minidoc
     yield
   rescue Minidoc::DuplicateKey
     false
-  rescue Mongo::OperationFailure => ex
+  rescue Mongo::Error::OperationFailure => ex
     if Minidoc::DuplicateKey.duplicate_key_exception(ex)
       false
     else
@@ -193,7 +193,7 @@ private
     new_record? ? create : update
     @new_record = false
     true
-  rescue Mongo::OperationFailure => exception
+  rescue Mongo::Error::OperationFailure => exception
     if (duplicate_key_exception = Minidoc::DuplicateKey.duplicate_key_exception(exception))
       raise duplicate_key_exception
     else
@@ -202,11 +202,11 @@ private
   end
 
   def create
-    self.class.collection << attributes
+    self.class.collection.insert_one(attributes)
   end
 
   def update
-    self.class.collection.update({ _id: id }, { "$set" => attributes.except(:_id) })
+    self.class.collection.update_one({ _id: id }, { "$set" => attributes.except(:_id) })
   end
 
   if ActiveSupport.respond_to?(:run_load_hooks)

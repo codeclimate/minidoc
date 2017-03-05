@@ -8,7 +8,7 @@ class Minidoc
     end
 
     def clear_collections
-      each_collection { |c| c.remove({}) }
+      each_collection(&:drop)
     end
 
     def clear_indexes
@@ -16,7 +16,7 @@ class Minidoc
     end
 
     def each_collection(&block)
-      Minidoc.database.collections.
+      $mongo.collections.
         reject { |c| c.name.include?("system") }.
         each(&block)
     end

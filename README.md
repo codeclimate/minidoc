@@ -54,7 +54,7 @@ $ gem install minidoc
 ### Setup
 
 ```ruby
-Minidoc.connection = Mongo::MongoClient.from_uri("mongodb://localhost")
+Minidoc.connection = Mongo::Client.new("mongodb://localhost")
 Minidoc.database_name = "my_great_app_development"
 ```
 

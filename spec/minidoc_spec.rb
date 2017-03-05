@@ -95,7 +95,7 @@ describe Minidoc do
     it "raises Minidoc::DuplicateKey where appropriate" do
       collection = double
       expect(User).to receive(:collection).and_return(collection)
-      expect(collection).to receive(:<<).and_raise(Mongo::OperationFailure.new("Duplicate key exception", Minidoc::DuplicateKey::DUPLICATE_KEY_ERROR_CODE))
+      expect(collection).to receive(:insert_one).and_raise(Mongo::Error::OperationFailure.new("Booooo (11000)"))
       user = User.new
 
       expect { user.save }.to raise_error(Minidoc::DuplicateKey)
@@ -104,7 +104,7 @@ describe Minidoc do
     it "doesn't suppress errors it shouldn't" do
       collection = double
       expect(User).to receive(:collection).and_return(collection)
-      expect(collection).to receive(:<<).and_raise(ArgumentError)
+      expect(collection).to receive(:insert_one).and_raise(ArgumentError)
       user = User.new
 
       expect { user.save }.to raise_error(ArgumentError)
@@ -260,7 +260,7 @@ describe Minidoc do
       user = User.create!(name: "Bryan")
       expect(user.reload.name).to eq "Bryan"
 
-      User.collection.update({ :_id => user.id }, name: "Noah")
+      User.collection.update_one({ :_id => user.id }, name: "Noah")
       expect(user.name).to eq "Bryan"
 
       user.reload

@@ -1,0 +1,55 @@
+version: 2
+executorType: docker
+jobs:
+  build:
+    docker:
+      - image: ruby:2.3.1
+      - image: mongo:3.2
+    working_directory: ~/minidoc
+    steps:
+      - checkout
+      - run: bundle install
+      - run: while sudo lsof -Pi :27017 -sTCP:LISTEN -t; do sleep 1; done
+      - run: bundle exec rake
+      - run: "curl -u ${CIRCLE_API_TOKEN}:
+          -d build_parameters[CIRCLE_JOB]=build-30
+          -d revision=$CIRCLE_SHA1
+          https://circleci.com/api/v1.1/project/github/codeclimate/minidoc/tree/$CIRCLE_BRANCH"
+  build-30:
+    docker:
+      - image: ruby:2.3.1 
+      - image: mongo:3.0
+    working_directory: ~/minidoc
+    steps:
+      - checkout
+      - run: bundle install
+      - run: while sudo lsof -Pi :27017 -sTCP:LISTEN -t; do sleep 1; done
+      - run: bundle exec rake
+      - run: "curl -u ${CIRCLE_API_TOKEN}:
+          -d build_parameters[CIRCLE_JOB]=build-24
+          -d revision=$CIRCLE_SHA1
+          https://circleci.com/api/v1.1/project/github/codeclimate/minidoc/tree/$CIRCLE_BRANCH"
+  build-24:
+    docker:
+      - image: ruby:2.3.1 
+      - image: mongo:2.4
+    working_directory: ~/minidoc
+    steps:
+      - checkout
+      - run: bundle install
+      - run: while sudo lsof -Pi :27017 -sTCP:LISTEN -t; do sleep 1; done
+      - run: bundle exec rake
+      - run: "curl -u ${CIRCLE_API_TOKEN}:
+          -d build_parameters[CIRCLE_JOB]=build-34
+          -d revision=$CIRCLE_SHA1
+          https://circleci.com/api/v1.1/project/github/codeclimate/minidoc/tree/$CIRCLE_BRANCH"
+  build-34:
+    docker:
+      - image: ruby:2.3.1 
+      - image: mongo:3.4
+    working_directory: ~/minidoc
+    steps:
+      - checkout
+      - run: bundle install
+      - run: while sudo lsof -Pi :27017 -sTCP:LISTEN -t; do sleep 1; done
+      - run: bundle exec rake

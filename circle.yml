@@ -15,6 +15,7 @@ jobs:
           -d build_parameters[CIRCLE_JOB]=build-30
           -d revision=$CIRCLE_SHA1
           https://circleci.com/api/v1.1/project/github/codeclimate/minidoc/tree/$CIRCLE_BRANCH"
+      - run: CODECLIMATE_REPO_TOKEN=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d bundle exec codeclimate-test-reporter
   build-30:
     docker:
       - image: ruby:2.3.1 

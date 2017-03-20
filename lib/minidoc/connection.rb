@@ -18,6 +18,7 @@ module Minidoc::Connection
     end
 
     def database
+      validate_config
       connection.use(database_name).database
     end
 

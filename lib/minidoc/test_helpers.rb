@@ -16,7 +16,7 @@ class Minidoc
     end
 
     def each_collection(&block)
-      $mongo.collections.
+      Minidoc.connection.collections.
         reject { |c| c.name.include?("system") }.
         each(&block)
     end

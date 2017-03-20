@@ -29,7 +29,7 @@ describe "connection" do
 
   describe ".database" do
     it "exposes the underlying Mongo object" do
-      expect(User.database).to be_a Mongo::DB
+      expect(User.database).to be_a Mongo::Database
     end
 
     it "passes through the database name to the underlying Mongo::DB" do

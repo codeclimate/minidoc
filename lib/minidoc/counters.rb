@@ -27,10 +27,10 @@ class Minidoc
       end
 
       def increment(step_size = 1)
-        result = record.class.collection.find_and_modify(
-          query: { _id: record.id },
-          update: { "$inc" => { field => step_size } },
-          new: true,
+        result = record.class.collection.find_one_and_update(
+          { _id: record.id },
+          { "$inc" => { field => step_size } },
+          return_document: :after,
         )
 
         result[field.to_s]

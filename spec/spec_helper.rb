@@ -22,7 +22,8 @@ class SecondUser < Minidoc
   attribute :age, Integer
 end
 
-$mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost")
+$mongo = Mongo::Client.new(ENV["MONGODB_URI"] || "mongodb://localhost")
+$mongo.logger.level = Logger::FATAL
 Minidoc.connection = $mongo
 Minidoc.database_name = "minidoc_test"
 

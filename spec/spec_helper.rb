@@ -22,9 +22,9 @@ class SecondUser < Minidoc
   attribute :age, Integer
 end
 
-$mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost")
+$mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost/minidoc_test")
 Minidoc.connection = $mongo
-Minidoc.database_name = "minidoc_test"
+Minidoc.database_name = $mongo.db.name
 
 RSpec.configure do |config|
   if config.files_to_run.one?

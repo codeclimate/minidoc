@@ -4,6 +4,8 @@
 
 ### New features
 
+* Association methods that raise when the document is not found ([@pbrisbin][])
+
 ### Bug fixes
 
 ### Changes

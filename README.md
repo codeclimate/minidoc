@@ -122,6 +122,17 @@ drink = Drink.create(name: "Paloma", user: bryan)
 drink.user == bryan #=> true
 ```
 
+Associations are also exposed as "bang methods" which raise a
+`Minidoc::DocumentNotFoundError` if the record pointed to by the foreign key is
+no longer present. (This can be useful in web frameworks where such exceptions
+automatically result in 404 responses.)
+
+```rb
+user.destroy
+Drink.find(name: "Paloma").user!
+# => Minidoc::DocumentNotFoundError
+```
+
 ### Read-only records
 
 ```ruby

@@ -30,8 +30,16 @@ describe Minidoc::Associations do
       user = User.create
       cat = Cat.new(owner_id: user.id)
       expect(cat.owner.id).to eq user.id
+      expect(cat.owner!.id).to eq user.id
       cat.save
       expect(cat.owner.id).to eq user.id
+      expect(cat.owner!.id).to eq user.id
+    end
+
+    it "defines methods that raise when not found" do
+      cat = Cat.new
+      cat.owner_id = BSON::ObjectId.new
+      expect { cat.owner! }.to raise_error(Minidoc::DocumentNotFoundError)
     end
 
     it "caches the association cache rather than go to the database each time" do

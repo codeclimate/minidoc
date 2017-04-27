@@ -28,6 +28,11 @@ module Minidoc::Associations
       define_method(association_name) do
         read_association(association_name)
       end
+
+      define_method("#{association_name}!") do
+        read_association(association_name) or
+          raise Minidoc::DocumentNotFoundError
+      end
     end
   end
 

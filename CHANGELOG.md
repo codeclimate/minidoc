@@ -4,9 +4,15 @@
 
 ### New features
 
-* Association methods that raise when the document is not found ([@pbrisbin][])
-
 ### Bug fixes
+
+### Changes
+
+## v2.0.0 (2017-05-02)
+
+### New features
+
+* Association methods that raise when the document is not found ([@pbrisbin][])
 
 ### Changes
 

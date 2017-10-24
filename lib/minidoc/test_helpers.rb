@@ -16,9 +16,11 @@ class Minidoc
     end
 
     def each_collection(&block)
-      Minidoc.database.collections.
-        reject { |c| c.name.include?("system") }.
-        each(&block)
+      [$mongo, $alt_mongo].each do |conn|
+        conn.db.collections.
+          reject { |c| c.name.include?("system") }.
+          each(&block)
+      end
     end
   end
 end

@@ -53,6 +53,7 @@ Style/DotPosition:
 # Common globals we allow
 Style/GlobalVars:
   AllowedVariables:
+  - "$alt_mongo"
   - "$statsd"
   - "$mongo"
   - "$rollout"

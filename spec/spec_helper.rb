@@ -26,6 +26,9 @@ $mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost/
 Minidoc.connection = $mongo
 Minidoc.database_name = $mongo.db.name
 
+alt_url = "mongodb://#{$mongo.host}/#{$mongo.db.name}_2"
+$alt_mongo = Mongo::MongoClient.from_uri(alt_url)
+
 RSpec.configure do |config|
   if config.files_to_run.one?
     config.default_formatter = "doc"

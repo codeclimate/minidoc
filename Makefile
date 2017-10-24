@@ -11,3 +11,9 @@ test: image
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc bundle exec rspec $(RSPEC_ARGS)
+
+irb: image
+	$(DOCKER_RUN) -it \
+	  --env MONGODB_URI="$(MONGODB_URI)" \
+	  --volume "$(PWD)":/app \
+	  codeclimate/minidoc irb -I lib -r minidoc

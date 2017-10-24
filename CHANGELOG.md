@@ -8,6 +8,13 @@
 
 ### Changes
 
+## v2.0.1 (2017-10-24)
+
+### Bug fixes
+
+* `Minidoc::ReadOnly` should support per-class `connection` and `database`
+  overrides, same as normal classes. ([@wfleming][])
+
 ## v2.0.0 (2017-05-02)
 
 ### New features

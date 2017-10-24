@@ -39,6 +39,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 
   config.before(:each) do
-    Minidoc::TestHelpers.clear_database
+    Minidoc::TestHelpers.clear_databases([$mongo, $alt_mongo])
   end
 end

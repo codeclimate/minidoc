@@ -1,4 +1,4 @@
-.PHONY: image test
+.PHONY: image test citest irb
 
 DOCKER_RUN ?= docker run --rm
 MONGODB_URI ?= mongodb://mongodb/minidoc_test
@@ -11,6 +11,15 @@ test: image
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc bundle exec rspec $(RSPEC_ARGS)
+
+# Route named service hosts to the docker bridge
+citest: DOCKER_BRIDGE_IP=$(shell ip addr show dev docker0 | sed '/^.*inet \(.*\)\/.*$$/!d; s//\1/')
+citest:
+	docker run \
+	  --add-host mongodb:$(DOCKER_BRIDGE_IP) \
+	  --env MONGODB_URI="$(MONGODB_URI)" \
+	  --volume $(PWD):/app \
+	  codeclimate/minidoc bundle exec rspec && ./cc-test-reporter after-build -p "/app"
 
 irb: image
 	$(DOCKER_RUN) -it \

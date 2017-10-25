@@ -19,7 +19,7 @@ citest:
 	  --add-host mongodb:$(DOCKER_BRIDGE_IP) \
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume $(PWD):/app \
-	  codeclimate/minidoc bundle exec rspec && ./cc-test-reporter after-build -p "/app"
+	  codeclimate/minidoc bundle exec rspec && ./cc-test-reporter after-build --prefix "/app"
 
 irb: image
 	$(DOCKER_RUN) -it \

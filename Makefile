@@ -1,4 +1,4 @@
-.PHONY: image test citest irb
+.PHONY: image test citest irb bundle
 
 DOCKER_RUN ?= docker run --rm
 MONGODB_URI ?= mongodb://mongodb/minidoc_test
@@ -26,3 +26,8 @@ irb: image
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc irb -I lib -r minidoc
+
+bundle:
+	$(DOCKER_RUN) \
+	  --volume "$(PWD)":/app \
+	  codeclimate/minidoc bundle $(BUNDLE_ARGS)

@@ -11,7 +11,7 @@ describe Minidoc::ReadOnly do
 
   class AltModel < Minidoc::ReadOnly
     self.connection = $alt_mongo
-    self.database_name = $alt_mongo.db.name
+    self.database_name = $alt_mongo.database.name
 
     attribute :name, String
   end
@@ -30,7 +30,7 @@ describe Minidoc::ReadOnly do
 
   it "can have a separate mongo connection" do
     expect(AltModel.count).to eq(0)
-    $alt_mongo.db[:alt_models].insert(name: "42")
+    $alt_mongo.database[:alt_models].insert_one(name: "42")
     expect(AltModel.count).to eq(1)
 
     instance = AltModel.find_one(name: "42")

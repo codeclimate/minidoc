@@ -34,3 +34,8 @@ irb: image
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc irb -I lib -r minidoc
+
+bundle:
+	$(DOCKER_RUN) \
+	  --volume "$(PWD)":/app \
+	  codeclimate/minidoc bundle $(BUNDLE_ARGS)

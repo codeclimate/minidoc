@@ -23,14 +23,27 @@ class SecondUser < Minidoc
 end
 
 
-$mongo = Mongo::Client.new(ENV["MONGODB_URI"] || "mongodb://localhost")
+uri = Mongo::URI.new(ENV["MONGODB_URI"] || "mongodb://localhost:27017")
+
+puts uri.options
+puts uri.client_options
+$mongo = Mongo::Client.new(uri.servers, uri.client_options)
 $mongo.logger.level = Logger::FATAL
+puts $mongo.inspect
+puts $mongo.cluster.inspect
+puts $mongo.list_databases
 
 Minidoc.connection = $mongo
-Minidoc.database_name = $mongo.db.name
+Minidoc.database_name = $mongo.database.name
 
-alt_url = "mongodb://#{$mongo.host}/#{$mongo.db.name}_2"
-$alt_mongo = Mongo::MongoClient.from_uri(alt_url)
+puts Minidoc.connection
+puts Minidoc.database_name
+
+options = uri.options.merge(database: "#{uri.database}_2")
+$alt_mongo = Mongo::Client.new(uri.servers, options)
+puts $alt_mongo.inspect
+puts $alt_mongo.cluster.inspect
+puts $alt_mongo.list_databases
 
 RSpec.configure do |config|
   if config.files_to_run.one?

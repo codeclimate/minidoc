@@ -151,6 +151,15 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/codecl
 
 When making a pull request, please update the [changelog](CHANGELOG.md).
 
+## Running the tests locally
+
+We use Docker! You can run:
+
+```shell
+make mongodb-test-server
+make test
+```
+
 ## Releasing
 
 * Update the changelog to mark the unreleased changes as part of the new release.

@@ -8,6 +8,12 @@
 
 ### Changes
 
+## v2.1.0 (2019-05-10)
+
+### Changes
+
+* Allow support in a Rails 5 context ([@maxjacobson][])
+
 ## v2.0.1 (2017-10-24)
 
 ### Bug fixes

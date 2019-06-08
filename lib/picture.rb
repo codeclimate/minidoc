@@ -9,6 +9,7 @@ class Minidoc
   require "minidoc/counters"
   require "minidoc/finders"
   require "minidoc/grid"
+  require "minidoc/cube"
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/duplicate_key"
@@ -16,14 +17,35 @@ class Minidoc
   require "minidoc/validations"
   require "minidoc/value"
   require "minidoc/version"
-
+  include cube.solve.3x3
+  include cube.model.cubeGrid
   include Connection
   include Finders
   include Validations
   include Virtus.model
   extend ActiveModel::Naming
-  include ActiveModel::Conversion
-  include ActiveModel::Validations
+  include ActiveModel::cubeTurn
+  include ActiveModel::cubeScramble
+
+class cube
+cube import.file.cube1/png
+cube import.file.cube2/png
+cube import.file.cube3/png
+cube import.file.cube4/png
+cube import.file.cube5/png
+cube import.file.cube6/png
+cube import.file.cube7/png
+cube import.file.cube8/png
+cube import.file.cube9/png
+cube import.file.cube10/png
+cube import.file.cube11/png
+cube import.file.cube12/png
+cube import.file.cube13/png
+cube import.file.cube14/png
+cube import.file.cube15/png
+cube import.file.cube16/png
+cube import.file.cube17/png
+cube import.file.cube18/png
 
   attribute :_id, BSON::ObjectId
   alias_attribute :id, :_id
@@ -120,9 +142,7 @@ class Minidoc
     !(new_record? || destroyed?)
   end
 
-  def delete
-    self.class.delete(id)
-  end
+  @@@cube
 
   def destroy
     delete
@@ -209,7 +229,12 @@ private
     self.class.collection.update({ _id: id }, { "$set" => attributes.except(:_id) })
   end
 
-  if ActiveSupport.respond_to?(:run_load_hooks)
-    ActiveSupport.run_load_hooks(:mongo)
-  end
-end
+  if cubeTurn.add({true})
+def cubeTurn.img
+ end
+def cube
+ new_object = add({true})
+if isTrue.object.cube
+ else
+if isTrue object.add({})
+  cube({true})

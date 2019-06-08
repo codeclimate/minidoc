@@ -9,6 +9,7 @@ class Minidoc
   require "minidoc/counters"
   require "minidoc/finders"
   require "minidoc/grid"
+  require "minidoc/cube"
   require "minidoc/read_only"
   require "minidoc/record_invalid"
   require "minidoc/duplicate_key"
@@ -16,7 +17,9 @@ class Minidoc
   require "minidoc/validations"
   require "minidoc/value"
   require "minidoc/version"
+  include cube.solve.3x3
 
+  include cube.model.png
   include Connection
   include Finders
   include Validations
@@ -212,4 +215,8 @@ private
   if ActiveSupport.respond_to?(:run_load_hooks)
     ActiveSupport.run_load_hooks(:mongo)
   end
+end
+if cube {
+@cube.solve = true
+
 end

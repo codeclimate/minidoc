@@ -24,7 +24,7 @@ module Minidoc::Finders
 
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
-        collection.find(id_or_selector, options).lazy.map(&method(:wrap))
+        collection.find(id_or_selector, options).map(&method(:wrap))
       else
         raise ArgumentError unless options.empty?
         id = BSON::ObjectId(id_or_selector.to_s)

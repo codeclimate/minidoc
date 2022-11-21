@@ -15,10 +15,11 @@ mongodb-test-server:
 		--name mongodb \
 		circleci/mongo:3.2
 
-test: image
-	$(DOCKER_RUN) \
+test:
+	$(DOCKER_RUN) -it \
 		--network minidoc \
 	  --env MONGODB_URI="$(MONGODB_URI)" \
+	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc bundle exec rspec $(RSPEC_ARGS)
 
 citest:

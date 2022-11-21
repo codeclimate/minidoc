@@ -95,7 +95,7 @@ describe Minidoc do
     it "raises Minidoc::DuplicateKey where appropriate" do
       collection = double
       expect(User).to receive(:collection).and_return(collection)
-      expect(collection).to receive(:insert_one).and_raise(Mongo::Error::OperationFailure.new("Booooo (11000)"))
+      expect(collection).to receive(:insert_one).and_raise(Mongo::Error::OperationFailure.new("E11000 Boooo"))
       user = User.new
 
       expect { user.save }.to raise_error(Minidoc::DuplicateKey)

@@ -21,7 +21,6 @@ module Minidoc::Finders
       end
 
       def to_a
-        #transformer.call(view.to_a)
         view.map(&transformer)
       end
 
@@ -43,6 +42,14 @@ module Minidoc::Finders
 
       def [](arg)
         view.map(&transformer)[arg]
+      end
+
+      def select(&block)
+        view.map(&transformer).select(&block)
+      end
+
+      def group_by(&block)
+        view.map(&transformer).group_by(&block)
       end
 
       private

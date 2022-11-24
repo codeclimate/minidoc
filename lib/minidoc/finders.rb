@@ -24,6 +24,10 @@ module Minidoc::Finders
         transformer.call(view.to_a)
       end
 
+      def map(&block)
+        view.map(&transformer).map(&block)
+      end
+
       private
 
       attr_reader :view, :transformer

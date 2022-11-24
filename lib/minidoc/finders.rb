@@ -18,7 +18,7 @@ module Minidoc::Finders
         end if block_given?
 
         view.each
-        view.instance_variable_get("@cursor").map(@transformer)
+        view.instance_variable_get("@cursor").lazy.map(@transformer).to_a
       end
 
       def to_a

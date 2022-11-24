@@ -33,6 +33,10 @@ module Minidoc::Finders
         view.map(&transformer).include?(args)
       end
 
+      def flat_map(&block)
+        view.map(&transformer).flat_map(&block)
+      end
+
       private
 
       attr_reader :view, :transformer

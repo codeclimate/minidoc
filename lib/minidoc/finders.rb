@@ -6,8 +6,36 @@ module Minidoc::Finders
   DocumentNotFoundError = Class.new(StandardError)
 
   module ClassMethods
+    class ViewWrapper
+      def initialize(view, transformer)
+        @view = view
+        @transformer = transformer
+      end
+
+      def each
+        view.each do |doc|
+          yield  @transformer.call(doc)
+        end if block_given?
+
+        view.each
+        view.instance_variable_get("@cursor")
+      end
+
+      def to_a
+        @transformer.call(view.to_a)
+      end
+
+      private
+
+      attr_reader :view
+
+      def method_missing(method_name, *args)
+        view.send(method_name, *args)
+      end
+    end
+
     def all
-      find({})
+      find({}).to_a
     end
 
     def first
@@ -24,7 +52,7 @@ module Minidoc::Finders
 
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
-        collection.find(id_or_selector, options).lazy.map(&method(:wrap))
+        ViewWrapper.new(collection.find(id_or_selector, options), transformer)
       else
         raise ArgumentError unless options.empty?
         id = BSON::ObjectId(id_or_selector.to_s)
@@ -53,14 +81,22 @@ module Minidoc::Finders
       doc
     end
 
-    def wrap(doc)
-      return nil unless doc
-
-      if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
-        doc.map { |d| from_db(d) }
-      else
-        from_db(doc)
+    def transformer
+      @transformer ||= Proc.new do |doc|
+        if doc
+          if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
+            doc.map { |d| from_db(d) }
+          else
+            from_db(doc)
+          end
+        else
+          nil
+        end
       end
+    end
+
+    def wrap(doc)
+      transformer.call(doc)
     end
   end
 end

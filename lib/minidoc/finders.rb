@@ -52,6 +52,10 @@ module Minidoc::Finders
         view.map(&transformer).group_by(&block)
       end
 
+      def any?(&block)
+        view.map(&transformer).any?(&block)
+      end
+
       private
 
       attr_reader :view, :transformer

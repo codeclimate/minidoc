@@ -56,6 +56,10 @@ module Minidoc::Finders
         view.map(&transformer).any?(&block)
       end
 
+      def first
+        transformer.call(view.first)
+      end
+
       private
 
       attr_reader :view, :transformer

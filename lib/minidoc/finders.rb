@@ -60,6 +60,10 @@ module Minidoc::Finders
         transformer.call(view.first)
       end
 
+      def sort_by(&block)
+        view.map(&transformer).sort_by(&block)
+      end
+
       private
 
       attr_reader :view, :transformer

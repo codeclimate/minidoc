@@ -12,22 +12,21 @@ module Minidoc::Finders
         @transformer = transformer
       end
 
-      def each
+      def each(&block)
         view.each do |doc|
-          yield  @transformer.call(doc)
+          yield  transformer.call(doc)
         end if block_given?
 
-        view.each
-        view.instance_variable_get("@cursor").lazy.map(@transformer).to_a
+        view.map(&transformer)
       end
 
       def to_a
-        @transformer.call(view.to_a)
+        transformer.call(view.to_a)
       end
 
       private
 
-      attr_reader :view
+      attr_reader :view, :transformer
 
       def method_missing(method_name, *args)
         view.send(method_name, *args)

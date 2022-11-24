@@ -14,6 +14,7 @@ describe Minidoc::Finders do
     it "counts the documents in the collection" do
       User.collection.insert_one(name: "Joe")
       User.collection.insert_one(name: "Bryan")
+      byebug
       expect(User.count).to eq 2
     end
 

@@ -21,11 +21,16 @@ module Minidoc::Finders
       end
 
       def to_a
-        transformer.call(view.to_a)
+        #transformer.call(view.to_a)
+        view.map(&transformer)
       end
 
       def map(&block)
         view.map(&transformer).map(&block)
+      end
+
+      def include?(args)
+        view.map(&transformer).include?(args)
       end
 
       private

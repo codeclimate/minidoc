@@ -1,4 +1,5 @@
 require "active_support/concern"
+require "forwardable"
 
 module Minidoc::Finders
   extend ActiveSupport::Concern
@@ -7,66 +8,76 @@ module Minidoc::Finders
 
   module ClassMethods
     class ViewWrapper
+      extend Forwardable
+
       def initialize(view, transformer)
         @view = view
         @transformer = transformer
       end
+
+      def_delegators :transformed_view, :to_a, :map, :include?, :flat_map, :compact, :[], :select, :group_by,
+        :any?, :first, :sort_by
 
       def each(&block)
         view.each do |doc|
           yield  transformer.call(doc)
         end if block_given?
 
-        view.map(&transformer)
+        # this should be an Enumerator object to follow ruby conventions
+        transformed_view
       end
 
-      def to_a
-        view.map(&transformer)
-      end
+      #def to_a
+      #  view.map(&transformer)
+      #end
 
-      def map(&block)
-        view.map(&transformer).map(&block)
-      end
+      #def map(&block)
+      #  view.map(&transformer).map(&block)
+      #end
 
-      def include?(args)
-        view.map(&transformer).include?(args)
-      end
+      #def include?(args)
+      #  view.map(&transformer).include?(args)
+      #end
 
-      def flat_map(&block)
-        view.map(&transformer).flat_map(&block)
-      end
+      #def flat_map(&block)
+      #  view.map(&transformer).flat_map(&block)
+      #end
 
-      def compact
-        view.map(&transformer).compact
-      end
+      #def compact
+      #  view.map(&transformer).compact
+      #end
 
-      def [](arg)
-        view.map(&transformer)[arg]
-      end
+      #def [](arg)
+      #  view.map(&transformer)[arg]
+      #end
 
-      def select(&block)
-        view.map(&transformer).select(&block)
-      end
+      #def select(&block)
+      #  view.map(&transformer).select(&block)
+      #end
 
-      def group_by(&block)
-        view.map(&transformer).group_by(&block)
-      end
+      #def group_by(&block)
+      #  view.map(&transformer).group_by(&block)
+      #end
 
-      def any?(&block)
-        view.map(&transformer).any?(&block)
-      end
+      #def any?(&block)
+      #  view.map(&transformer).any?(&block)
+      #end
 
-      def first
-        transformer.call(view.first)
-      end
+      #def first
+      #  transformer.call(view.first)
+      #end
 
-      def sort_by(&block)
-        view.map(&transformer).sort_by(&block)
-      end
+      #def sort_by(&block)
+      #  view.map(&transformer).sort_by(&block)
+      #end
 
       private
 
       attr_reader :view, :transformer
+
+      def transformed_view
+        @transformed_view ||= view.map(&transformer)
+      end
 
       def method_missing(method_name, *args)
         view.send(method_name, *args)

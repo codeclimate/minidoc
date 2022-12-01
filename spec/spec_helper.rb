@@ -1,4 +1,10 @@
 require "simplecov"
+
+if ENV["CI"]
+  require "simplecov_json_formatter"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+end
+
 SimpleCov.start do
   add_filter "/test/"
 end

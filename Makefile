@@ -25,6 +25,7 @@ citest:
 	docker run \
 		--network minidoc \
 		--env MONGODB_URI="mongodb://mongodb/minidoc_test" \
+		--env CI="true" \
 		--name "minidoc-${CIRCLE_WORKFLOW_ID}" \
 	  codeclimate/minidoc bundle exec rspec
 	docker cp "minidoc-${CIRCLE_WORKFLOW_ID}":/app/coverage ./coverage

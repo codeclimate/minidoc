@@ -27,50 +27,6 @@ module Minidoc::Finders
         transformed_view
       end
 
-      #def to_a
-      #  view.map(&transformer)
-      #end
-
-      #def map(&block)
-      #  view.map(&transformer).map(&block)
-      #end
-
-      #def include?(args)
-      #  view.map(&transformer).include?(args)
-      #end
-
-      #def flat_map(&block)
-      #  view.map(&transformer).flat_map(&block)
-      #end
-
-      #def compact
-      #  view.map(&transformer).compact
-      #end
-
-      #def [](arg)
-      #  view.map(&transformer)[arg]
-      #end
-
-      #def select(&block)
-      #  view.map(&transformer).select(&block)
-      #end
-
-      #def group_by(&block)
-      #  view.map(&transformer).group_by(&block)
-      #end
-
-      #def any?(&block)
-      #  view.map(&transformer).any?(&block)
-      #end
-
-      #def first
-      #  transformer.call(view.first)
-      #end
-
-      #def sort_by(&block)
-      #  view.map(&transformer).sort_by(&block)
-      #end
-
       private
 
       attr_reader :view, :transformer

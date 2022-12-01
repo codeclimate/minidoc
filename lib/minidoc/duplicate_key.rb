@@ -4,6 +4,8 @@ class Minidoc::DuplicateKey < StandardError
   def self.duplicate_key_exception(ex)
     if ex.is_a?(Mongo::Error::OperationFailure) && ex.message.starts_with?(DUPLICATE_KEY_ERROR_CODE)
       new(ex.message)
+    else
+      nil
     end
   end
 end

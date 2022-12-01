@@ -41,7 +41,7 @@ module Minidoc::Finders
     end
 
     def all
-      find({}).to_a
+      find({})
     end
 
     def first
@@ -49,7 +49,7 @@ module Minidoc::Finders
     end
 
     def count(selector = {})
-      collection.count(selector)
+      collection.count_documents(selector)
     end
 
     def exists?(selector = {})

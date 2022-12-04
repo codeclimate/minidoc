@@ -19,12 +19,20 @@ module Minidoc::Finders
         :any?, :first, :sort_by
 
       def each(&block)
-        view.each do |doc|
-          yield  transformer.call(doc)
-        end if block_given?
+        # this method should always return an Enumerator object  to follow ruby conventions
+        # but that would be expensive so I'd prefer not to
+        if block_given?
+          view.each do |doc|
+            yield  transformer.call(doc)
+          end
+        else
+          transformed_view.to_enum
+        end
+      end
 
-        # this should be an Enumerator object to follow ruby conventions
-        transformed_view
+      # I don't want to transform all of the documents and then grab the first one
+      def first
+        transformer.call(view.first)
       end
 
       private
@@ -67,7 +75,12 @@ module Minidoc::Finders
     end
 
     def find_one(selector = {}, options = {})
-      wrap(collection.find(selector, options).first)
+      # running collection.find({}).first will leave the cursor open unless we iterate across all of the documents
+      # so in order to do not let a cusror open we want to kill the cursor after having grabbed the first document
+      view = collection.find(selector, options)
+      wrapped_doc = wrap(view.first)
+      view.close_query
+      wrapped_doc
     end
 
     def find_one!(selector = {}, options = {})

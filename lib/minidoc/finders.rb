@@ -75,7 +75,6 @@ module Minidoc::Finders
   end
 
   class ResultSet
-    extend Forwardable
     include Enumerable
 
     def initialize(view, doc_wrapper)

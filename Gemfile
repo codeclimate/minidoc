@@ -4,7 +4,6 @@ gem "bson_ext"
 gem "rake"
 gem "rspec"
 gem "simplecov"
-gem "byebug"
 
 # Test these versions, specifically, although some older
 # versions are also expected to work

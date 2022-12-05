@@ -7,47 +7,6 @@ module Minidoc::Finders
   DocumentNotFoundError = Class.new(StandardError)
 
   module ClassMethods
-    class ViewWrapper
-      extend Forwardable
-
-      def initialize(view, transformer)
-        @view = view
-        @transformer = transformer
-      end
-
-      def_delegators :transformed_view, :to_a, :map, :include?, :flat_map, :compact, :[], :select, :group_by,
-        :any?, :first, :sort_by
-
-      def each(&block)
-        # this method should always return an Enumerator object  to follow ruby conventions
-        # but that would be expensive so I'd prefer not to
-        if block_given?
-          view.each do |doc|
-            yield  transformer.call(doc)
-          end
-        else
-          transformed_view.to_enum
-        end
-      end
-
-      # I don't want to transform all of the documents and then grab the first one
-      def first
-        transformer.call(view.first)
-      end
-
-      private
-
-      attr_reader :view, :transformer
-
-      def transformed_view
-        @transformed_view ||= view.map(&transformer)
-      end
-
-      def method_missing(method_name, *args)
-        view.send(method_name, *args)
-      end
-    end
-
     def all
       find({})
     end
@@ -66,11 +25,11 @@ module Minidoc::Finders
 
     def find(id_or_selector, options = {})
       if id_or_selector.is_a?(Hash)
-        ViewWrapper.new(collection.find(id_or_selector, options), transformer)
+        ResultSet.new(collection.find(id_or_selector, options), wrapper)
       else
         raise ArgumentError unless options.empty?
         id = BSON::ObjectId(id_or_selector.to_s)
-        wrap(collection.find(_id: id).first)
+        wrapper.call(collection.find(_id: id).first)
       end
     end
 
@@ -78,7 +37,7 @@ module Minidoc::Finders
       # running collection.find({}).first will leave the cursor open unless we iterate across all of the documents
       # so in order to do not let a cusror open we want to kill the cursor after having grabbed the first document
       view = collection.find(selector, options)
-      wrapped_doc = wrap(view.first)
+      wrapped_doc = wrapper.call(view.first)
       view.close_query
       wrapped_doc
     end
@@ -100,8 +59,8 @@ module Minidoc::Finders
       doc
     end
 
-    def transformer
-      @transformer ||= Proc.new do |doc|
+    def wrapper
+      @wrapper ||= Proc.new do |doc|
         if doc
           if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
             doc.map { |d| from_db(d) }
@@ -113,9 +72,25 @@ module Minidoc::Finders
         end
       end
     end
+  end
 
-    def wrap(doc)
-      transformer.call(doc)
+  class ResultSet
+    extend Forwardable
+    include Enumerable
+
+    def initialize(view, doc_wrapper)
+      @view = view
+      @doc_wrapper = doc_wrapper
+    end
+
+    def each(&block)
+      if block_given?
+        @view.each do |doc|
+          yield  @doc_wrapper.call(doc)
+        end
+      else
+       to_enum
+      end
     end
   end
 end

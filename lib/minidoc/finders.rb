@@ -92,5 +92,9 @@ module Minidoc::Finders
        to_enum
       end
     end
+
+    def count
+      @view.count_documents
+    end
   end
 end

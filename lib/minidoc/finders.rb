@@ -60,15 +60,13 @@ module Minidoc::Finders
     end
 
     def wrapper
-      @wrapper ||= Proc.new do |doc|
+      @wrapper ||= proc do |doc|
         if doc
           if doc.is_a?(Array) || doc.is_a?(Mongo::Cursor)
             doc.map { |d| from_db(d) }
           else
             from_db(doc)
           end
-        else
-          nil
         end
       end
     end
@@ -82,13 +80,13 @@ module Minidoc::Finders
       @doc_wrapper = doc_wrapper
     end
 
-    def each(&block)
+    def each(&_block)
       if block_given?
         @view.each do |doc|
-          yield  @doc_wrapper.call(doc)
+          yield @doc_wrapper.call(doc)
         end
       else
-       to_enum
+        to_enum
       end
     end
 

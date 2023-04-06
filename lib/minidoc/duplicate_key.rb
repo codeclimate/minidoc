@@ -1,12 +1,11 @@
-class Minidoc::DuplicateKey < Mongo::OperationFailure
-  DUPLICATE_KEY_ERROR_CODE = 11000
+class Minidoc::DuplicateKey < StandardError
+  DUPLICATE_KEY_ERROR_CODE = "E11000".freeze
 
-  def self.duplicate_key_exception(exception)
-    if exception.respond_to?(:error_code) && exception.error_code == DUPLICATE_KEY_ERROR_CODE
-      new(exception.message, exception.error_code, exception.result)
+  def self.duplicate_key_exception(ex)
+    if ex.is_a?(Mongo::Error::OperationFailure) && ex.message.starts_with?(DUPLICATE_KEY_ERROR_CODE)
+      new(ex.message)
     else
       nil
     end
   end
-
 end

@@ -1,10 +1,4 @@
 require "simplecov"
-
-if ENV["CI"]
-  require "simplecov_json_formatter"
-  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
-end
-
 SimpleCov.start do
   add_filter "/test/"
 end
@@ -28,12 +22,16 @@ class SecondUser < Minidoc
   attribute :age, Integer
 end
 
-$mongo = Mongo::MongoClient.from_uri(ENV["MONGODB_URI"] || "mongodb://localhost/minidoc_test")
-Minidoc.connection = $mongo
-Minidoc.database_name = $mongo.db.name
+uri = Mongo::URI.new(ENV["MONGODB_URI"] || "mongodb://localhost:27017")
 
-alt_url = "mongodb://#{$mongo.host}/#{$mongo.db.name}_2"
-$alt_mongo = Mongo::MongoClient.from_uri(alt_url)
+$mongo = Mongo::Client.new(uri.servers, uri.client_options)
+$mongo.logger.level = Logger::FATAL
+
+Minidoc.connection = $mongo
+Minidoc.database_name = $mongo.database.name
+
+options = uri.options.merge(database: "#{uri.database}_2")
+$alt_mongo = Mongo::Client.new(uri.servers, options)
 
 RSpec.configure do |config|
   if config.files_to_run.one?

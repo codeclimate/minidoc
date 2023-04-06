@@ -15,17 +15,17 @@ mongodb-test-server:
 		--name mongodb \
 		circleci/mongo:3.2
 
-test: image
-	$(DOCKER_RUN) \
+test:
+	$(DOCKER_RUN) -it \
 		--network minidoc \
 	  --env MONGODB_URI="$(MONGODB_URI)" \
+	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc bundle exec rspec $(RSPEC_ARGS)
 
 citest:
 	docker run \
 		--network minidoc \
 		--env MONGODB_URI="mongodb://mongodb/minidoc_test" \
-		--env CI="true" \
 		--name "minidoc-${CIRCLE_WORKFLOW_ID}" \
 	  codeclimate/minidoc bundle exec rspec
 	docker cp "minidoc-${CIRCLE_WORKFLOW_ID}":/app/coverage ./coverage
@@ -35,3 +35,8 @@ irb: image
 	  --env MONGODB_URI="$(MONGODB_URI)" \
 	  --volume "$(PWD)":/app \
 	  codeclimate/minidoc irb -I lib -r minidoc
+
+bundle:
+	$(DOCKER_RUN) \
+	  --volume "$(PWD)":/app \
+	  codeclimate/minidoc bundle $(BUNDLE_ARGS)

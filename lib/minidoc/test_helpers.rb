@@ -12,7 +12,7 @@ class Minidoc
     end
 
     def clear_collections(connection = Minidoc.connection)
-      each_collection(connection) { |c| c.remove({}) }
+      each_collection(connection, &:drop)
     end
 
     def clear_indexes(connection = Minidoc.connection)
@@ -20,7 +20,7 @@ class Minidoc
     end
 
     def each_collection(connection, &block)
-      connection.db.collections.
+      connection.collections.
         reject { |c| c.name.include?("system") }.
         each(&block)
     end

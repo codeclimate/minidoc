@@ -8,6 +8,10 @@
 
 ### Changes
 
+## 3.0.0 (2023-04-06)
+
+## Changes
+* Upgrade `mongo` dependency to support version `2.14.1`
 ## v2.1.0 (2019-05-10)
 
 ### Changes

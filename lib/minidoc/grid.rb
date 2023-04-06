@@ -1,7 +1,18 @@
-class Minidoc::Grid < Mongo::Grid
+class Minidoc::Grid
+  def initialize(database)
+    @bucket = Mongo::Grid::FSBucket.new(database)
+  end
+
+  def put(str, filename = SecureRandom.uuid)
+    bucket.upload_from_stream(filename, StringIO.new(str))
+  end
+
   def get(id)
     id = BSON::ObjectId(id.to_s)
-    super(id)
+    io = StringIO.new
+    bucket.download_to_stream(id, io)
+    io.rewind
+    io
   end
 
   def get_json(id)
@@ -11,6 +22,10 @@ class Minidoc::Grid < Mongo::Grid
 
   def delete(id)
     id = BSON::ObjectId(id.to_s)
-    super(id)
+    bucket.delete(id)
   end
+
+  private
+
+  attr_reader :bucket
 end

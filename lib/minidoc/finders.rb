@@ -90,6 +90,16 @@ module Minidoc::Finders
       end
     end
 
+    def skip(*args)
+      @view.skip(*args)
+      self
+    end
+  
+    def limit(*args)
+      @view.limit(*args)
+      self
+    end
+
     def count
       @view.count_documents
     end
